@@ -11,11 +11,28 @@
 /* ************************************************************************** */
 
 //#include <stdlib.h>
+#include <fcntl.h>
 #include "libft.h"
 #include "mlx.h"
+#include "get_next_line.h"
+
 
 int 	main(int argc, char **argv)
 {
-	ft_putchar('a');
+	char	*str;
+	int		fd;
+
+	if (argc != 2)
+		ft_putstr("usage: ./fdf fdf_file");
+	else
+	{
+		fd = open(argv[1], O_RDONLY);
+		while (get_next_line(fd, &str) == 1)
+		{
+			ft_putstr(str);
+			ft_putchar('\n');
+			ft_strdel(&str);
+		}
+	}
 	return (0);
 }

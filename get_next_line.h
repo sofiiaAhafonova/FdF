@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # include "libft/libft.h"
-# define BUFF_SIZE 1
+# define BUFF_SIZE 100000
 # define FD_MAX 1024
 
 typedef struct	s_storage
