@@ -10,10 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+//#include <stdlib.h>
+#include "libft.h"
 #include "mlx.h"
 
 int 	main(int argc, char **argv)
 {
+	ft_putchar('a');
 	return (0);
 }
