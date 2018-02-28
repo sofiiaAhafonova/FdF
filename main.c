@@ -10,4 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include ""
+#include <stdlib.h>
+#include "mlx.h"
+
+int 	main(int argc, char **argv)
+{
+	return (0);
+}
