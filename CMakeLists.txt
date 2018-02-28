@@ -7,6 +7,6 @@ link_directories(libft minilibx)
 
 include_directories(libft minilibx)
 
-add_executable(FdF main.c)
+add_executable(FdF main.c get_next_line.c)
 
 target_link_libraries(FdF ${PROJECT_LINK_LIBS} )
