@@ -1,22 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sahafono <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: sahafono <sahafono@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/01/23 17:00:46 by sahafono          #+#    #+#             */
-/*   Updated: 2018/02/07 20:58:21 by sahafono         ###   ########.fr       */
+/*   Created: 2018/03/11 21:00:00 by sahafono          #+#    #+#             */
+/*   Updated: 2018/03/11 21:00:00 by sahafono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
-# include "libft/libft.h"
-# define BUFF_SIZE 1000
-# define FD_MAX 4864
-
-int		get_next_line(const int fd, char **line);
-
-#endif
+#include ""

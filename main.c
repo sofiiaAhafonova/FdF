@@ -16,6 +16,13 @@
 #include "mlx.h"
 #include "get_next_line.h"
 
+int 	exit_key(int key, void *param)
+{
+	if (param)
+		;
+	if (key == 65307)
+		exit(0);
+}
 
 int 	main(int argc, char **argv)
 {
@@ -27,12 +34,34 @@ int 	main(int argc, char **argv)
 	else
 	{
 		fd = open(argv[1], O_RDONLY);
-		while (get_next_line(fd, &str) == 1)
+		while (get_next_line(fd, &str) > 0)
 		{
 			ft_putstr(str);
 			ft_putchar('\n');
 			ft_strdel(&str);
 		}
+		void *ret;
+		if (!(ret = mlx_init()))
+		{
+			ft_putstr("Connection failed\n");
+			return (1);
+		}
+		void *window = mlx_new_window(ret, 1000, 1000, "test");
+		if (!window)
+		{
+			ft_putstr("Window creation failed");
+			return (1);
+		}
+		void *image = mlx_new_image(ret, 100, 100);
+		if (!image)
+		{
+			ft_putstr("Image creation failed");
+			return (1);
+		}
+		mlx_put_image_to_window(ret, window, image, 10, 10);
+		mlx_key_hook(window, exit_key, (void*)0);
+		mlx_loop(ret);
+
 	}
 	return (0);
 }
