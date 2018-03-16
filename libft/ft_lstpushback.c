@@ -16,7 +16,7 @@ void	ft_lstpushback(t_list **alst, t_list *new)
 {
 	t_list *cur;
 
-	if (*alst == NULL || new == NULL)
+	if (alst == NULL || *alst == NULL || new == NULL)
 	{
 		ft_lstadd(alst, new);
 		return ;

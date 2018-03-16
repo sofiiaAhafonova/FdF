@@ -38,6 +38,7 @@ char				*read_line(char *stor)
 		str[i] = stor[i];
 		i++;
 	}
+	str[i] = '\0';
 	return (str);
 }
 

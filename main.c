@@ -23,12 +23,14 @@ int 	exit_key(int key, void *param)
 		;
 	if (key == 65307)
 		exit(0);
+    return (0);
 }
 
 int 	main(int argc, char **argv)
 {
 	char	*str;
 	int		fd;
+    t_list  *list;
 
 	if (argc != 2)
 		ft_putstr("usage: ./fdf fdf_file");
@@ -41,7 +43,8 @@ int 	main(int argc, char **argv)
 			ft_putchar('\n');
 			ft_strdel(&str);
 		}
-		void *ret;
+        close(fd);
+//		void *ret;
 //		if (!(ret = mlx_init()))
 //		{
 //			ft_putstr("Connection failed\n");
@@ -62,10 +65,15 @@ int 	main(int argc, char **argv)
 	//	mlx_put_image_to_window(ret, window, image, 10, 10);
 		//mlx_key_hook(window, exit_key, (void*)0);
 		//mlx_loop(ret);
-		ft_putendl("\n10-70.fdf");
-		int fd1 = open("test_maps/10-70.fdf", O_RDONLY);
-		if (fd1 >= 0)
-			read_map(fd1);
+        fd = open(argv[1], O_RDONLY);
+        ft_putendl("");
+		ft_putendl(argv[1]);
+        list = NULL;
+        t_map *map;
+		if (fd < 0)
+            return (1);
+        map = read_map(fd, &list);
+        ft_putstr("000");
 	}
 	return (0);
 }

@@ -12,13 +12,15 @@
 
 #include "libft.h"
 #include "get_next_line.h"
+#include "fdf.h"
 #include <fcntl.h>
 
 void	print_lst(t_list *list)
 {
+
 	while (list)
 	{
-		ft_putendl_fd((char*)list->content, 0);
+        ft_putendl(list->content);
 		list = list->next;
 	}
 }
@@ -52,38 +54,55 @@ int 	is_num(char *str)
 void 	del(void *cont, size_t size)
 {
 	if (size)
-		//free(&cont);
-		ft_putendl("Del list");
+		free(cont);
 }
 
-int 	read_map(int fd)
+t_map   *map_params(int col, t_list *list)
 {
-	t_list	*list;
+    t_map   *map;
+    t_list  *cur;
+
+    if (col <= 0)
+        return (NULL);
+    map = (t_map*)malloc(sizeof(t_map));
+    if (!map)
+        return (NULL);
+    map->col = (unsigned int)col;
+    map->row = 0;
+    cur = list;
+    while (cur)
+    {
+        cur = cur->next;
+        (map->row)++;
+    }
+    map->list = list;
+    return (map);
+}
+t_map	*read_map(int fd, t_list **list)
+{
 	t_list	*node;
 	char	*buf;;
 	int num;
 	int first;
-	list = NULL;
 
 	num = -1;
 	first = -1;
 	while (get_next_line(fd, &buf) == 1)
 	{
-		node = ft_lstnew(ft_strtrim(buf), ft_strlen(buf));
 		if (first == -1 && num != -1)
 			first = num;
 		if (!(num = is_num(buf)) || (first != -1 && first != num))
 		{
-			if (buf)
-				ft_strdel(&buf);
-			if (list)
-				ft_lstdel(&list, &del);
+			ft_strdel(&buf);
+            list ? ft_lstdel(list, &del) : 0;
 			return (0);
 		}
-		else
-			ft_lstadd(&list, node);
+        node = ft_lstnew(buf, ft_strlen(buf) + 1);
+        ft_lstadd(list, node);
 		ft_strdel(&buf);
 	}
-	print_lst(list);
-	return (1);
+	if (!list)
+		return (0);
+	print_lst(*list);
+	return (map_params(num, *list));
 }

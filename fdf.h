@@ -13,6 +13,14 @@
 #ifndef FDF_H
 # define FDF_H
 
-int 	read_map(int fd);
+#define (x, y, z)
+typedef struct  s_map
+{
+    unsigned int row;
+    unsigned int col;
+    t_list      *list;
+}               t_map;
+
+t_map 	*read_map(int fd, t_list **list);
 
 #endif
