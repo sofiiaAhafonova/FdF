@@ -15,16 +15,6 @@
 #include "fdf.h"
 #include <fcntl.h>
 
-void	print_lst(t_list *list)
-{
-
-	while (list)
-	{
-        ft_putendl(list->content);
-		list = list->next;
-	}
-}
-
 int 	is_num(char *str)
 {
 	size_t i;
@@ -79,13 +69,13 @@ t_map   *map_params(int col, t_list *list)
     return (map);
 }
 
-int     *str_to_arr(t_list *node, int col)
+int     *str_to_arr(char *str, int col)
 {
     char **tmp;
     int *arr;
     int i;
 
-    if (!node || col < 1 || !( tmp = ft_strsplit(node->content, ' ')))
+    if (!str || col < 1 || !( tmp = ft_strsplit(str, ' ')))
         return (0);
     arr = (int*)malloc(sizeof(int) *col);
     i = -1;
@@ -109,7 +99,7 @@ int     **list_to_arr(t_map *map)
     i = map->row - 1;
     while (i > -1 && node)
     {
-        arr[i] = str_to_arr(node, map->col);
+        arr[i] = node->content;
         if (!arr[i])
         {
             while (++i < map->row)
@@ -142,12 +132,11 @@ t_map	*read_map(int fd, t_list **list)
             list ? ft_lstdel(list, &del) : 0;
 			return (0);
 		}
-        node = ft_lstnew(buf, ft_strlen(buf) + 1);
+        node = ft_lstnew(str_to_arr(buf, num), sizeof(int) * (num + 1));
         ft_lstadd(list, node);
 		ft_strdel(&buf);
 	}
 	if (!list)
 		return (0);
-	print_lst(*list);
 	return (map_params(num, *list));
 }

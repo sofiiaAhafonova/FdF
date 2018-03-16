@@ -26,6 +26,22 @@ int 	exit_key(int key, void *param)
     return (0);
 }
 
+
+void print_map(t_map *map, int **arr)
+{
+    for (int i = 0; i < map->row; i++)
+    {
+        ft_putendl("");
+        for (int j = 0; j < map->col; j++)
+        {
+            if (arr[i][j] < 10 && j > 0       )
+                ft_putchar(' ');
+            ft_putnbr(arr[i][j]);
+            ft_putchar(' ');
+        }
+    }
+}
+
 int 	main(int argc, char **argv)
 {
 	char	*str;
@@ -75,17 +91,7 @@ int 	main(int argc, char **argv)
         map = read_map(fd, &list);
         int **arr;
         arr = list_to_arr(map);
-        for (int i = 0; i < map->row; i++)
-        {
-            ft_putendl("");
-            for (int j = 0; j < map->col; j++)
-            {
-                if (arr[i][j] < 10 && j > 0)
-                    ft_putchar(' ');
-                ft_putnbr(arr[i][j]);
-                ft_putchar(' ');
-            }
-        }
+        print_map(map, arr);
 	}
 	return (0);
 }
