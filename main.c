@@ -73,7 +73,19 @@ int 	main(int argc, char **argv)
 		if (fd < 0)
             return (1);
         map = read_map(fd, &list);
-        ft_putstr("000");
+        int **arr;
+        arr = list_to_arr(map);
+        for (int i = 0; i < map->row; i++)
+        {
+            ft_putendl("");
+            for (int j = 0; j < map->col; j++)
+            {
+                if (arr[i][j] < 10 && j > 0)
+                    ft_putchar(' ');
+                ft_putnbr(arr[i][j]);
+                ft_putchar(' ');
+            }
+        }
 	}
 	return (0);
 }

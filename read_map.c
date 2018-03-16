@@ -78,6 +78,51 @@ t_map   *map_params(int col, t_list *list)
     map->list = list;
     return (map);
 }
+
+int     *str_to_arr(t_list *node, int col)
+{
+    char **tmp;
+    int *arr;
+    int i;
+
+    if (!node || col < 1 || !( tmp = ft_strsplit(node->content, ' ')))
+        return (0);
+    arr = (int*)malloc(sizeof(int) *col);
+    i = -1;
+    while (++i < col)
+        arr[i] = ft_atoi(tmp[i]);
+    while (--i > -1)
+        ft_strdel(&tmp[i]);
+    free(tmp);
+    return (arr);
+}
+
+int     **list_to_arr(t_map *map)
+{
+    int **arr;
+    int i;
+    t_list *node;
+
+    if (!map || !(arr = (int**)malloc(sizeof(int*)*map->row)))
+        return (0);
+    node = map->list;
+    i = map->row - 1;
+    while (i > -1 && node)
+    {
+        arr[i] = str_to_arr(node, map->col);
+        if (!arr[i])
+        {
+            while (++i < map->row)
+                free(arr[i]);
+            free(arr);
+            return (0);
+        }
+        node = node->next;
+        i--;
+    }
+    return (arr);
+}
+
 t_map	*read_map(int fd, t_list **list)
 {
 	t_list	*node;
