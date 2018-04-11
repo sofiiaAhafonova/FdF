@@ -16,6 +16,7 @@
 #include "minilibx_macos/mlx.h"
 #include "get_next_line.h"
 #include "fdf.h"
+#include <math.h>
 
 void print_map(t_map *map, int **arr)
 {
@@ -55,6 +56,29 @@ int		start_zoom(t_map *map)
 	return (5);
 }
 
+void	line(int x0, int y0, int x1, int y1) {
+ 
+	int dx;
+	int sx;
+	int dy;
+	int sy; 
+	int err;
+	
+	dx = abs(x1 - x0);
+	sx = x0<x1 ? 1 : -1;
+	dy = abs(y1-y0);
+	sy = y0<y1 ? 1 : -1;
+	err = (dx>dy ? dx : -dy)/2, e2;
+	while(1)
+	{
+		setPixel(x0,y0);
+		if (x0==x1 && y0==y1) break;
+		e2 = err;
+		if (e2 >-dx) { err -= dy; x0 += sx; }
+		if (e2 < dy) { err += dx; y0 += sy; }
+	}
+}
+
 int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
 {
 	int		zoom;
@@ -63,8 +87,14 @@ int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
 		return (1);
 	zoom = start_zoom(map);
 	for (int i = 0; i < (int)map->row; i++)
-        for (int j = 0; j < (int)map->col; j++)
-            mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
+	{
+		for (int j = 0; j < (int)map->col; j++)
+		{
+			mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
+		}
+            
+	}
+
 	return (0);
 }
 
