@@ -23,5 +23,6 @@ typedef struct  s_map
 t_map 	*read_map(int fd, t_list **list);
 void 	del(void *cont, size_t size);
 int     **list_to_arr(t_map *map);
+int 	on_key_press(int key, void *param);
 
 #endif

@@ -102,7 +102,7 @@ int     **list_to_arr(t_map *map)
         arr[i] = node->content;
         if (!arr[i])
         {
-            while (++i < map->row)
+            while (++i < (int)map->row)
                 free(arr[i]);
             free(arr);
             return (0);
