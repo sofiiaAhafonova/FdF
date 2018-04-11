@@ -24,7 +24,7 @@ void print_map(t_map *map, int **arr)
         ft_putendl("");
         for (int j = 0; j < (int)map->col; j++)
         {
-            if (arr[i][j] < 10 && j > 0       )
+            if (arr[i][j] < 10 && j > 0)
                 ft_putchar(' ');
             ft_putnbr(arr[i][j]);
             ft_putchar(' ');
@@ -35,6 +35,16 @@ void print_map(t_map *map, int **arr)
 int		print_error(char *error)
 {
 	ft_putendl(error);
+	return (0);
+}
+
+int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
+{
+	if (!arr)
+		return (1);
+	for (int i = 0; i < (int)map->row; i++)
+        for (int j = 0; j < (int)map->col; j++)
+            mlx_pixel_put(mlx_ptr, window, 40*i + 500, 25*j + 200, 111209233);
 	return (0);
 }
 
@@ -55,13 +65,14 @@ int 	main(int argc, char **argv)
 		return (print_error("map parsing error"));
     int **arr = list_to_arr(map);
     print_map(map, arr);
-	void *ret = mlx_init();
-	if (!ret)
+	void *mlx_ptr = mlx_init();
+	if (!mlx_ptr)
 		return (print_error("mlx init error"));
-	void *window = mlx_new_window(ret, 1000, 1000, "test");
+	void *window = mlx_new_window(mlx_ptr, 1500, 1000, "test");
 	if (!window)
 		return (print_error("window creation error"));
+	put_image(mlx_ptr, window, arr, map);
 	mlx_key_hook(window, on_key_press, (void*)0);
-	mlx_loop(ret);
+	mlx_loop(mlx_ptr);
 	return (0);
 }
