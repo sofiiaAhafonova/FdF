@@ -38,15 +38,36 @@ int		print_error(char *error)
 	return (0);
 }
 
+int		start_zoom(t_map *map)
+{
+	if (map->row <= 10 && map->col <= 10)
+		return (30);
+	if (map->row <= 20 && map->col <= 20)
+		return (25);
+	if (map->row <= 30 && map->col <= 30)
+		return (20);
+	if (map->row <= 40 && map->col <= 40)
+		return (15);
+	if (map->row <= 60 && map->col <= 60)
+		return (15);
+	if (map->row <= 100 && map->col <= 100)
+		return (10);
+	return (5);
+}
+
 int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
 {
-	if (!arr)
+	int		zoom;
+	
+	if (!arr || !*arr || !mlx_ptr || !window)
 		return (1);
+	zoom = start_zoom(map);
 	for (int i = 0; i < (int)map->row; i++)
         for (int j = 0; j < (int)map->col; j++)
-            mlx_pixel_put(mlx_ptr, window, 40*i + 500, 25*j + 200, 111209233);
+            mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
 	return (0);
 }
+
 
 int 	main(int argc, char **argv)
 {
@@ -68,7 +89,7 @@ int 	main(int argc, char **argv)
 	void *mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (print_error("mlx init error"));
-	void *window = mlx_new_window(mlx_ptr, 1500, 1000, "test");
+	void *window = mlx_new_window(mlx_ptr, 2000, 1200, "test");
 	if (!window)
 		return (print_error("window creation error"));
 	put_image(mlx_ptr, window, arr, map);
