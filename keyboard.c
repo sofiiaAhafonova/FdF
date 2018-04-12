@@ -17,7 +17,7 @@ int 	on_key_press(int key, void *param)
 {
 	if (param)
 		;
-	if (key == 53)
+	if (key == 53 || key == 65307)
 		exit(EXIT_SUCCESS);
 	return (0);
 }
