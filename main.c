@@ -56,22 +56,23 @@ int		start_zoom(t_map *map)
 	return (5);
 }
 
-void	line(int x0, int y0, int x1, int y1) {
+void	line(int x0, int y0, int x1, int y1, void *ret, void*window) {
  
 	int dx;
 	int sx;
 	int dy;
 	int sy; 
 	int err;
+	int e2;
 	
 	dx = abs(x1 - x0);
 	sx = x0<x1 ? 1 : -1;
 	dy = abs(y1-y0);
 	sy = y0<y1 ? 1 : -1;
-	err = (dx>dy ? dx : -dy)/2, e2;
+	err = (dx>dy ? dx : -dy)/2;
 	while(1)
 	{
-		setPixel(x0,y0);
+		mlx_pixel_put(ret,window, x0, y0, 100700100);
 		if (x0==x1 && y0==y1) break;
 		e2 = err;
 		if (e2 >-dx) { err -= dy; x0 += sx; }
