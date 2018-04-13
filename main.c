@@ -56,21 +56,13 @@ int		start_zoom(t_map *map)
 	return (5);
 }
 
-void	line(int x0, int y0, int x1, int y1, void *ret, void*window) {
- 
-	int dx;
-	int sx;
-	int dy;
-	int sy; 
-	int err;
-	int e2;
-	
-	dx = abs(x1 - x0);
-	sx = x0<x1 ? 1 : -1;
-	dy = abs(y1-y0);
-	sy = y0<y1 ? 1 : -1;
-	err = (dx>dy ? dx : -dy)/2;
-	while(1)
+void line(int x0, int y0, int x1, int y1, void* ret, void *window) {
+
+	int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
+	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
+	int err = (dx>dy ? dx : -dy)/2, e2;
+
+	while (1)
 	{
 		mlx_pixel_put(ret,window, x0, y0, 100700100);
 		if (x0==x1 && y0==y1) break;
@@ -92,6 +84,10 @@ int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
 		for (int j = 0; j < (int)map->col; j++)
 		{
 			mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
+			if (i < map->row - 1)
+				line(zoom * j + 500, zoom * i + 100, j*zoom+500, (i+1)*zoom+100, mlx_ptr, window);
+			if (j < map->col - 1)
+				line(zoom * j + 500,zoom * i + 100,zoom * (j+1)+500,zoom * i + 100 ,mlx_ptr, window);
 		}
             
 	}
