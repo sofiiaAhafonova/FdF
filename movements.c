@@ -12,7 +12,8 @@ void	shift_x(t_map *map, int shift)
         map->dots[k].x += shift;
 		k++;
 	}
-
+    mlx_clear_window(map->mlx_ptr, map->window);
+    put_image(map->mlx_ptr, map->window, map);
 }
 
 void	shift_y(t_map *map, int shift)

@@ -20,7 +20,7 @@ int 	on_key_press(int key, t_map *map)
 	ft_putendl("");
 	/*right arrow*/
 	if (key == 65363 || key == 124)
-		shift_x(map,1);
+		shift_x(map, 1);
 	/*top arrow*/
 	if (key == 65362 || key == 126)
 		;

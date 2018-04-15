@@ -156,6 +156,8 @@ int main(int argc, char **argv)
 	void *window = mlx_new_window(mlx_ptr, 2000, 1200, "test");
 	if (!window)
 		return (print_error("window creation error"));
+	map->mlx_ptr = mlx_ptr;
+	map->window = window;
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);
