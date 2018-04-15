@@ -2,16 +2,20 @@
 
 void	shift_x(t_map *map, int shift)
 {
-	unsigned int k;
-	unsigned int len;
+	// unsigned int k;
+	// unsigned int len;
 
-	k = 0;
-	len = map->col * map->row;
-	while (k < len)
-	{
-        map->dots[k].x += shift;
-		k++;
-	}
+	// k = 0;
+	// len = map->col * map->row;
+	// while (k < len)
+	// {
+    //     map->dots[k].x += shift;
+	// 	k++;
+    // }
+    if (shift)
+    ;
+    map->zoom += 1;
+    zoom_map(map);
     mlx_clear_window(map->mlx_ptr, map->window);
     put_image(map->mlx_ptr, map->window, map);
 }

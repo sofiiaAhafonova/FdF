@@ -94,7 +94,7 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 	}
 }
 
-t_map *zoom_map(t_map *map, int zoom)
+t_map *zoom_map(t_map *map)
 {
 	int k;
 	t_dot cur;
@@ -103,9 +103,9 @@ t_map *zoom_map(t_map *map, int zoom)
 	while (++k < (int)(map->col * map->row))
 	{
 		cur = map->dots[k];
-		cur.x *= zoom;
-		cur.y *= zoom;
-		cur.z *= zoom;
+		cur.x *= map->zoom;
+		cur.y *= map->zoom;
+		cur.z *= map->zoom;
 		map->dots[k] = cur;
 	}
 	return (map);
@@ -113,14 +113,12 @@ t_map *zoom_map(t_map *map, int zoom)
 
 int put_image(void *mlx_ptr, void *window, t_map *map)
 {
-	int zoom;
 	int k;
 	t_dot cur;
 
 	if (!mlx_ptr || !window)
 		return (1);
-	zoom = start_zoom(map);
-	map = zoom_map(map, zoom);
+	map = zoom_map(map);
 	k = -1;
 	while (++k < (int)(map->col * map->row))
 	{
@@ -158,6 +156,7 @@ int main(int argc, char **argv)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
 	map->window = window;
+	map->zoom = start_zoom(map);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);

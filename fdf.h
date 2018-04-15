@@ -29,6 +29,7 @@ typedef struct	s_map
 	t_dot		*dots;
 	void		*window;
 	void		*mlx_ptr;
+	int			zoom;
 }				t_map;
 
 t_map	*read_map(int fd, t_list **list);
@@ -37,7 +38,6 @@ int 	on_key_press(int key, t_map *map);
 void	shift_x(t_map *map, int shift);
 void	shift_y(t_map *map, int shift);
 int put_image(void *mlx_ptr, void *window, t_map *map);
-t_map *zoom_map(t_map *map, int zoom);
+t_map *zoom_map(t_map *map);
 void line(t_dot A, t_dot B, void *ret, void *window);
-int start_zoom(t_map *map);
 #endif
