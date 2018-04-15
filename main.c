@@ -123,7 +123,7 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
 		if (k < (int)(map->col * (map->row - 1)))
 			line(cur, map->dots[k + map->col], mlx_ptr, window);
-		if (cur.x < (int)map->col - 1)
+		if (k < (int)((map->col - 1) * map->row) && map->dots[k + 1].x != 0 )
 			line(cur, map->dots[k + 1], mlx_ptr, window);
 	}
 	return (0);
