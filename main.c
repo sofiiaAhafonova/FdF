@@ -65,26 +65,31 @@ int start_zoom(t_map *map)
 
 void line(t_dot A, t_dot B, void *ret, void *window)
 {
+	int err;
+	int e2;
+	t_dot D;
+	t_dot S;
 
-	int dx = abs(B.x - A.x), sx = A.x < B.x ? 1 : -1;
-	int dy = abs(B.y - A.y), sy = A.y < B.y ? 1 : -1;
-	int err = (dx > dy ? dx : -dy) / 2, e2;
-
+	D.x = abs(B.x - A.x);
+	D.y = abs(B.y - A.y);
+	S.x = A.x < B.x ? 1 : -1;
+	S.y = A.y < B.y ? 1 : -1;
+	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
 		mlx_pixel_put(ret, window, A.x, A.y, 100700100);
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
-		if (e2 > -dx)
+		if (e2 > -D.x)
 		{
-			err -= dy;
-			A.x += sx;
+			err -= D.y;
+			A.x += S.x;
 		}
-		if (e2 < dy)
+		if (e2 < D.y)
 		{
-			err += dx;
-			A.y += sy;
+			err += D.x;
+			A.y += S.y;
 		}
 	}
 }
@@ -123,7 +128,7 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
 		if (k < (int)(map->col * (map->row - 1)))
 			line(cur, map->dots[k + map->col], mlx_ptr, window);
-		if (k < (int)((map->col - 1) * map->row) && map->dots[k + 1].x != 0 )
+		if (k < (int)((map->col - 1) * map->row) && map->dots[k + 1].x)
 			line(cur, map->dots[k + 1], mlx_ptr, window);
 	}
 	return (0);
@@ -152,7 +157,7 @@ int main(int argc, char **argv)
 	if (!window)
 		return (print_error("window creation error"));
 	put_image(mlx_ptr, window, map);
-	mlx_key_hook(window, on_key_press, (void *)0);
+	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);
 	return (0);
 }

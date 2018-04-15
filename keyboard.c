@@ -9,28 +9,26 @@
 /*   Updated: 2018/04/11 15:29:38 by sahafono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
+#include "fdf.h"
 #include "minilibx_macos/mlx.h"
 #include <stdlib.h>
 #include "libft/libft.h"
 
-int 	on_key_press(int key, void *param)
+int 	on_key_press(int key, t_map *map)
 {
-	if (param)
-		;
 	ft_putnbr(key);
 	ft_putendl("");
 	/*right arrow*/
-	if (key == 65363)
-		;
+	if (key == 65363 || key == 124)
+		shift_x(map,1);
 	/*top arrow*/
-	if (key == 65362)
+	if (key == 65362 || key == 126)
 		;
 	/*left arrow*/
-	if (key == 65361)
+	if (key == 65361 || key == 123)
 		;
 	/*bottom arrow*/
-	if (key == 65364)
+	if (key == 65364 || key == 125)
 		;
 	/*minus*/
 	if (key == 45)

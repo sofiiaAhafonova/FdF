@@ -6,7 +6,7 @@
         {
             "label": "build",
             "command": "gcc",
-            "args": ["-Wall","-Wextra", "-Werror", "get_next_line.c", "keyboard.c", "read_map.c", "main.c", "libft/libft.a", "minilibx_macos/libmlx.a", "-o", "fdf", "-lmlx","-framework","OpenGL","-framework","AppKit"],
+            "args": ["-Wall","-Wextra", "-Werror", "get_next_line.c", "movements.c", "keyboard.c", "read_map.c", "main.c", "libft/libft.a", "minilibx_macos/libmlx.a", "-o", "fdf", "-lmlx","-framework","OpenGL","-framework","AppKit"],
             "problemMatcher": {
                 "owner": "c",
                 "fileLocation": ["relative", "${workspaceFolder}"],

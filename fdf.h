@@ -13,6 +13,7 @@
 #ifndef FDF_H
 # define FDF_H
 
+#include "libft/libft.h"
 typedef struct	s_dot
 {
 	int x;
@@ -29,6 +30,8 @@ typedef struct	s_map
 
 t_map	*read_map(int fd, t_list **list);
 void	del(void *cont, size_t size);
-int		on_key_press(int key, void *param);
+int 	on_key_press(int key, t_map *map);
+void	shift_x(t_map *map, int shift);
+void	shift_y(t_map *map, int shift);
 
 #endif
