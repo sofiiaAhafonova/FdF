@@ -77,7 +77,7 @@ t_dot   *from_str_to_dots(t_list *list, int len, int col)
         return (NULL);
     head = list;
     k = len;
-    j = col - 1;
+    j = 0;
     while (list)
     {
         i = col;
@@ -89,7 +89,7 @@ t_dot   *from_str_to_dots(t_list *list, int len, int col)
         }
         list = list->next;
         k++;
-        j--;
+        j++;
     }
     return (dots);
 }

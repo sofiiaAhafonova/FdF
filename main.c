@@ -95,22 +95,17 @@ int		put_image(void *mlx_ptr, void *window, t_map *map)
 		cur = map->dots[k];
 		mlx_pixel_put(mlx_ptr, window, zoom * cur.x, zoom * cur.y,  100700100);
 		if (cur.y < (int)map->row - 1)
+		{
+			ft_putendl("new col");
 			line(zoom * cur.x, zoom * cur.y, cur.x * zoom, (cur.y + 1) * zoom, mlx_ptr, window);
+		}
 		if (cur.x < (int)map->col - 1)
+		{
+			ft_putendl("new row");
 			line(zoom * cur.x, zoom * cur.y, (cur.x + 1) * zoom, cur.y * zoom, mlx_ptr, window);
+		}
+			
 	}
-	// for (int i = 0; i < (int)map->row; i++)
-	// {
-	// 	for (int j = 0; j < (int)map->col; j++)
-	// 	{
-	// 		mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
-	// 		if (i < (int)map->row - 1)
-	// 			line(zoom * j + 500, zoom * i + 100, j*zoom+500, (i+1)*zoom+100, mlx_ptr, window);
-	// 		if (j < (int)map->col - 1)
-	// 			line(zoom * j + 500,zoom * i + 100,zoom * (j+1)+500,zoom * i + 100 ,mlx_ptr, window);
-	// 	}
-            
-	// }
 	return (0);
 }
 
