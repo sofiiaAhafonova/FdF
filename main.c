@@ -24,8 +24,8 @@ void print_map(t_map *map)
 	unsigned int k;
 
 	if (!map)
-		return ;
-    k = 0;
+		return;
+	k = 0;
 	// ft_putnbr((int)map->col);
 	while (k < map->row * map->col)
 	{
@@ -33,21 +33,20 @@ void print_map(t_map *map)
 		if (cur.z < 10 && cur.x > 0)
 			ft_putchar(' ');
 		ft_putnbr(cur.z);
-        ft_putchar(' ');
+		ft_putchar(' ');
 		if (cur.x == (int)map->col - 1)
 			ft_putchar('\n');
 		k++;
-
 	}
 }
 
-int		print_error(char *error)
+int print_error(char *error)
 {
 	ft_putendl(error);
 	return (0);
 }
 
-int		start_zoom(t_map *map)
+int start_zoom(t_map *map)
 {
 	if (map->row <= 10 && map->col <= 10)
 		return (30);
@@ -64,65 +63,85 @@ int		start_zoom(t_map *map)
 	return (5);
 }
 
-void line(int x0, int y0, int x1, int y1, void* ret, void *window) {
+void line(t_dot A, t_dot B, void *ret, void *window)
+{
 
-	int dx = abs(x1-x0), sx = x0<x1 ? 1 : -1;
-	int dy = abs(y1-y0), sy = y0<y1 ? 1 : -1;
-	int err = (dx>dy ? dx : -dy)/2, e2;
+	int dx = abs(B.x - A.x), sx = A.x < B.x ? 1 : -1;
+	int dy = abs(B.y - A.y), sy = A.y < B.y ? 1 : -1;
+	int err = (dx > dy ? dx : -dy) / 2, e2;
 
-	while (1)
+	while(1)
 	{
-		mlx_pixel_put(ret,window, x0, y0, 100700100);
-		if (x0==x1 && y0==y1) break;
+		mlx_pixel_put(ret, window, A.x, A.y, 100700100);
+		if (A.x == B.x && A.y == B.y)
+			break;
 		e2 = err;
-		if (e2 >-dx) { err -= dy; x0 += sx; }
-		if (e2 < dy) { err += dx; y0 += sy; }
+		if (e2 > -dx)
+		{
+			err -= dy;
+			A.x += sx;
+		}
+		if (e2 < dy)
+		{
+			err += dx;
+			A.y += sy;
+		}
 	}
 }
 
-int		put_image(void *mlx_ptr, void *window, t_map *map)
+t_map *zoom_map(t_map *map, int zoom)
 {
-	int		zoom;
-	int		k;
-	t_dot	cur;
+	int k;
+	t_dot cur;
 
-	if (!mlx_ptr || !window)
-		return (1);
-	zoom = start_zoom(map);
 	k = -1;
 	while (++k < (int)(map->col * map->row))
 	{
 		cur = map->dots[k];
-		mlx_pixel_put(mlx_ptr, window, zoom * cur.x, zoom * cur.y,  100700100);
-		if (cur.y < (int)map->row - 1)
-		{
-			ft_putendl("new col");
-			line(zoom * cur.x, zoom * cur.y, cur.x * zoom, (cur.y + 1) * zoom, mlx_ptr, window);
-		}
+		cur.x *= zoom;
+		cur.y *= zoom;
+		cur.z *= zoom;
+		map->dots[k] = cur;
+	}
+	return (map);
+}
+
+int put_image(void *mlx_ptr, void *window, t_map *map)
+{
+	int zoom;
+	int k;
+	t_dot cur;
+
+	if (!mlx_ptr || !window)
+		return (1);
+	zoom = start_zoom(map);
+	map = zoom_map(map, zoom);
+	k = -1;
+	while (++k < (int)(map->col * map->row))
+	{
+		cur = map->dots[k];
+		mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
+		if (k < (int)(map->col * (map->row - 1)))
+			line(cur, map->dots[k + map->col], mlx_ptr, window);
 		if (cur.x < (int)map->col - 1)
-		{
-			ft_putendl("new row");
-			line(zoom * cur.x, zoom * cur.y, (cur.x + 1) * zoom, cur.y * zoom, mlx_ptr, window);
-		}
-			
+			line(cur, map->dots[k + 1], mlx_ptr, window);
 	}
 	return (0);
 }
 
-
-int 	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	int		fd;
-    t_list  *list;
+	int fd;
+	t_list *list;
 	t_map *map;
 
 	if (argc != 2)
-		return(print_error("usage: ./fdf fdf_file"));
+		return (print_error("usage: ./fdf fdf_file"));
 	fd = open(argv[1], O_RDONLY);
 	list = NULL;
-	if (fd <0)
+	if (fd < 0)
 		return (print_error("map reading error"));
-    map = read_map(fd, &list);
+	map = read_map(fd, &list);
 	if (!map)
 		return (print_error("map parsing error"));
 	print_map(map);
@@ -133,7 +152,7 @@ int 	main(int argc, char **argv)
 	if (!window)
 		return (print_error("window creation error"));
 	put_image(mlx_ptr, window, map);
-	mlx_key_hook(window, on_key_press, (void*)0);
+	mlx_key_hook(window, on_key_press, (void *)0);
 	mlx_loop(mlx_ptr);
 	return (0);
 }
