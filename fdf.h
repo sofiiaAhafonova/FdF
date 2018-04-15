@@ -13,10 +13,13 @@
 #ifndef FDF_H
 # define FDF_H
 
-typedef struct s_dot
+typedef struct  s_dot
 {
+    int x;
+    int y;
+    int z;
+}               t_dot;
 
-};
 typedef struct  s_map
 {
     unsigned int row;

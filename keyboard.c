@@ -12,7 +12,7 @@
 
 #include "minilibx_macos/mlx.h"
 #include <stdlib.h>
-#include <libft.h>
+#include "libft/libft.h"
 
 int 	on_key_press(int key, void *param)
 {
