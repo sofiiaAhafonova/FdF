@@ -18,21 +18,27 @@
 #include "fdf.h"
 #include <math.h>
 
-void print_map(t_map *map, int **arr)
+void print_map(t_map *map)
 {
-	if (!map || !arr)
+	t_dot cur;
+	unsigned int k;
+
+	if (!map)
 		return ;
-    for (int i = 0; i < (int)map->row; i++)
-    {
-        ft_putendl("");
-        for (int j = 0; j < (int)map->col; j++)
-        {
-            if (arr[i][j] < 10 && j > 0)
-                ft_putchar(' ');
-            ft_putnbr(arr[i][j]);
-            ft_putchar(' ');
-        }
-    }
+    k = 0;
+	// ft_putnbr((int)map->col);
+	while (k < map->row * map->col)
+	{
+		cur = map->dots[k];
+		if (cur.z < 10 && cur.x > 0)
+			ft_putchar(' ');
+		ft_putnbr(cur.z);
+        ft_putchar(' ');
+		if (cur.x == (int)map->col - 1)
+			ft_putchar('\n');
+		k++;
+
+	}
 }
 
 int		print_error(char *error)
@@ -74,26 +80,37 @@ void line(int x0, int y0, int x1, int y1, void* ret, void *window) {
 	}
 }
 
-int		put_image(void *mlx_ptr, void *window, int **arr, t_map *map)
+int		put_image(void *mlx_ptr, void *window, t_map *map)
 {
 	int		zoom;
-	
-	ft_putendl("here");
-	if (!arr || !*arr || !mlx_ptr || !window)
+	int		k;
+	t_dot	cur;
+
+	if (!mlx_ptr || !window)
 		return (1);
 	zoom = start_zoom(map);
-	for (int i = 0; i < (int)map->row; i++)
+	k = -1;
+	while (++k < (int)(map->col * map->row))
 	{
-		for (int j = 0; j < (int)map->col; j++)
-		{
-			mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
-			if (i < (int)map->row - 1)
-				line(zoom * j + 500, zoom * i + 100, j*zoom+500, (i+1)*zoom+100, mlx_ptr, window);
-			if (j < (int)map->col - 1)
-				line(zoom * j + 500,zoom * i + 100,zoom * (j+1)+500,zoom * i + 100 ,mlx_ptr, window);
-		}
-            
+		cur = map->dots[k];
+		mlx_pixel_put(mlx_ptr, window, zoom * cur.x, zoom * cur.y,  100700100);
+		if (cur.y < (int)map->row - 1)
+			line(zoom * cur.x, zoom * cur.y, cur.x * zoom, (cur.y + 1) * zoom, mlx_ptr, window);
+		if (cur.x < (int)map->col - 1)
+			line(zoom * cur.x, zoom * cur.y, (cur.x + 1) * zoom, cur.y * zoom, mlx_ptr, window);
 	}
+	// for (int i = 0; i < (int)map->row; i++)
+	// {
+	// 	for (int j = 0; j < (int)map->col; j++)
+	// 	{
+	// 		mlx_pixel_put(mlx_ptr, window, zoom * j + 500, zoom * i + 100,  111209533);
+	// 		if (i < (int)map->row - 1)
+	// 			line(zoom * j + 500, zoom * i + 100, j*zoom+500, (i+1)*zoom+100, mlx_ptr, window);
+	// 		if (j < (int)map->col - 1)
+	// 			line(zoom * j + 500,zoom * i + 100,zoom * (j+1)+500,zoom * i + 100 ,mlx_ptr, window);
+	// 	}
+            
+	// }
 	return (0);
 }
 
@@ -108,20 +125,19 @@ int 	main(int argc, char **argv)
 		return(print_error("usage: ./fdf fdf_file"));
 	fd = open(argv[1], O_RDONLY);
 	list = NULL;
-	if (fd < 0)
+	if (fd <0)
 		return (print_error("map reading error"));
     map = read_map(fd, &list);
 	if (!map)
 		return (print_error("map parsing error"));
-    int **arr = list_to_arr(map);
+	print_map(map);
 	void *mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (print_error("mlx init error"));
 	void *window = mlx_new_window(mlx_ptr, 2000, 1200, "test");
 	if (!window)
 		return (print_error("window creation error"));
-	ft_putendl("----------");
-	put_image(mlx_ptr, window, arr, map);
+	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, (void*)0);
 	mlx_loop(mlx_ptr);
 	return (0);

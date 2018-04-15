@@ -47,6 +47,53 @@ void 	del(void *cont, size_t size)
 		free(cont);
 }
 
+int     *str_to_arr(char *str, int col)
+{
+    char **tmp;
+    int *arr;
+    int i;
+
+    if (!str || col < 1 || !( tmp = ft_strsplit(str, ' ')))
+        return (0);
+    arr = (int*)malloc(sizeof(int) * col);
+    i = -1;
+    while (++i < col)
+        arr[i] = ft_atoi(tmp[i]);
+    while (--i > -1)
+        ft_strdel(&tmp[i]);
+    free(tmp);
+    return (arr);
+}
+
+t_dot   *from_str_to_dots(t_list *list, int len, int col)
+{
+    t_dot   *dots;
+    t_list  *head;
+    int     i;
+    int     j;
+    int     k;
+
+    if (!list || len <= 0 || !(dots = (t_dot*)malloc(sizeof(t_dot) * (len + 1))))
+        return (NULL);
+    head = list;
+    k = len;
+    j = col - 1;
+    while (list)
+    {
+        i = col;
+        while (--k > -1 && --i > - 1)
+        {
+            dots[k].x = i;
+            dots[k].y = j;
+            dots[k].z = ((int*)list->content)[i];
+        }
+        list = list->next;
+        k++;
+        j--;
+    }
+    return (dots);
+}
+
 t_map   *map_params(int col, t_list *list)
 {
     t_map   *map;
@@ -65,52 +112,8 @@ t_map   *map_params(int col, t_list *list)
         cur = cur->next;
         (map->row)++;
     }
-    map->list = list;
+    map->dots = from_str_to_dots(list, map->row * map->col, map->col);   
     return (map);
-}
-
-int     *str_to_arr(char *str, int col)
-{
-    char **tmp;
-    int *arr;
-    int i;
-
-    if (!str || col < 1 || !( tmp = ft_strsplit(str, ' ')))
-        return (0);
-    arr = (int*)malloc(sizeof(int) *col);
-    i = -1;
-    while (++i < col)
-        arr[i] = ft_atoi(tmp[i]);
-    while (--i > -1)
-        ft_strdel(&tmp[i]);
-    free(tmp);
-    return (arr);
-}
-
-int     **list_to_arr(t_map *map)
-{
-    int **arr;
-    int i;
-    t_list *node;
-
-    if (!map || !(arr = (int**)malloc(sizeof(int*)*map->row)))
-        return (0);
-    node = map->list;
-    i = map->row - 1;
-    while (i > -1 && node)
-    {
-        arr[i] = node->content;
-        if (!arr[i])
-        {
-            while (++i < (int)map->row)
-                free(arr[i]);
-            free(arr);
-            return (0);
-        }
-        node = node->next;
-        i--;
-    }
-    return (arr);
 }
 
 t_map	*read_map(int fd, t_list **list)

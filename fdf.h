@@ -13,23 +13,22 @@
 #ifndef FDF_H
 # define FDF_H
 
-typedef struct  s_dot
+typedef struct	s_dot
 {
-    int x;
-    int y;
-    int z;
-}               t_dot;
+	int x;
+	int y;
+	int z;
+}				t_dot;
 
-typedef struct  s_map
+typedef struct	s_map
 {
-    unsigned int row;
-    unsigned int col;
-    t_list      *list;
-}               t_map;
+	unsigned int row;
+	unsigned int col;
+	t_dot		*dots;
+}				t_map;
 
-t_map 	*read_map(int fd, t_list **list);
-void 	del(void *cont, size_t size);
-int     **list_to_arr(t_map *map);
-int 	on_key_press(int key, void *param);
+t_map	*read_map(int fd, t_list **list);
+void	del(void *cont, size_t size);
+int		on_key_press(int key, void *param);
 
 #endif
