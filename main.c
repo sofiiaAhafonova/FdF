@@ -118,15 +118,15 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 
 	if (!mlx_ptr || !window)
 		return (1);
-	map = zoom_map(map);
 	k = -1;
+
 	while (++k < (int)(map->col * map->row))
 	{
 		cur = map->dots[k];
 		mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
 		if (k < (int)(map->col * (map->row - 1)))
 			line(cur, map->dots[k + map->col], mlx_ptr, window);
-		if (k < (int)((map->col - 1) * map->row) && map->dots[k + 1].x)
+		if (map->dots[k + 1].x && map->dots[k + 1].x != map->dots[0].x)
 			line(cur, map->dots[k + 1], mlx_ptr, window);
 	}
 	return (0);
@@ -151,12 +151,15 @@ int main(int argc, char **argv)
 	void *mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (print_error("mlx init error"));
-	void *window = mlx_new_window(mlx_ptr, 2000, 1200, "test");
+	void *window = mlx_new_window(mlx_ptr, 1000, 700, "test");
 	if (!window)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
 	map->window = window;
 	map->zoom = start_zoom(map);
+	map = zoom_map(map);
+	shift_x(map, 200);
+	shift_y(map, 100);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);

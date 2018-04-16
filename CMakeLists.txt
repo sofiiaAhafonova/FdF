@@ -22,5 +22,5 @@ else()
     # stuff that should happen not on Linux
 endif()
 
-add_executable(FdF main.c keyboard.c get_next_line.c get_next_line.h read_map.c fdf.h)
+add_executable(FdF main.c movements.c keyboard.c get_next_line.c get_next_line.h read_map.c fdf.h)
 target_link_libraries(FdF ${PROJECT_LINK_LIBS} -Werror -Wextra -Wall ${LINKED_LIBS})

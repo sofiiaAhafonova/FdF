@@ -14,6 +14,11 @@
 #include <stdlib.h>
 #include "libft/libft.h"
 
+int 	is_movement(int key)
+{
+	return (key == 65363 || key == 124 || key == 65362 || key == 126 || key == 65361 || key == 123
+	|| key == 65364 || key == 125);
+}
 int 	on_key_press(int key, t_map *map)
 {
 	ft_putnbr(key);
@@ -23,13 +28,13 @@ int 	on_key_press(int key, t_map *map)
 		shift_x(map, 1);
 	/*top arrow*/
 	if (key == 65362 || key == 126)
-		;
+		shift_y(map, -1);
 	/*left arrow*/
 	if (key == 65361 || key == 123)
-		;
+		shift_x(map, -1);
 	/*bottom arrow*/
 	if (key == 65364 || key == 125)
-		;
+		shift_y(map, 1);
 	/*minus*/
 	if (key == 45)
 		;
@@ -39,5 +44,10 @@ int 	on_key_press(int key, t_map *map)
 		;
 	if (key == 53 || key == 65307)
 		exit(EXIT_SUCCESS);
+	if (is_movement(key))
+	{
+		mlx_clear_window(map->mlx_ptr, map->window);
+		put_image(map->mlx_ptr, map->window, map);
+	}
 	return (0);
 }
