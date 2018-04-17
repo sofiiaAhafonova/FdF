@@ -151,15 +151,18 @@ int main(int argc, char **argv)
 	void *mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (print_error("mlx init error"));
-	void *window = mlx_new_window(mlx_ptr, 1000, 700, "test");
+	void *window = mlx_new_window(mlx_ptr, 1800, 1000, "test");
 	if (!window)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
 	map->window = window;
 	map->zoom = start_zoom(map);
 	map = zoom_map(map);
-	shift_x(map, 200);
-	shift_y(map, 100);
+	shift_x(map, 900);
+	shift_y(map, 500);
+//	rotate_z(map,  12.2);
+	rotate_y(map, 0.1);
+	rotate_x(map,  -0.25);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);

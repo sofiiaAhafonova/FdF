@@ -11,7 +11,7 @@ if(LINUX)
     link_directories(libmlx libft)
     include_directories(libmlx libft)
     set ( PROJECT_LINK_LIBS libft.a libmlx_Linux.a )
-    set (LINKED_LIBS  -lXext -lX11 )
+    set (LINKED_LIBS  -lXext -lX11 -lm )
     # linux stuff here
 else()
     message(STATUS ">>> Not Linux")

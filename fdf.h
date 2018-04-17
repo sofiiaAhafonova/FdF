@@ -15,6 +15,8 @@
 
 #include "libft/libft.h"
 #include "minilibx_macos/mlx.h"
+#include <math.h>
+
 typedef struct	s_dot
 {
 	int x;
@@ -40,4 +42,7 @@ void	shift_y(t_map *map, int shift);
 int put_image(void *mlx_ptr, void *window, t_map *map);
 t_map *zoom_map(t_map *map);
 void line(t_dot A, t_dot B, void *ret, void *window);
+void 	rotate_z(t_map *map, double angle);
+void 	rotate_x(t_map *map, double angle);
+void 	rotate_y(t_map *map, double angle);
 #endif

@@ -25,16 +25,16 @@ int 	on_key_press(int key, t_map *map)
 	ft_putendl("");
 	/*right arrow*/
 	if (key == 65363 || key == 124)
-		shift_x(map, 1);
+		rotate_y(map, 0.01);
 	/*top arrow*/
 	if (key == 65362 || key == 126)
-		shift_y(map, -1);
+		shift_y(map, -5);
 	/*left arrow*/
 	if (key == 65361 || key == 123)
-		shift_x(map, -1);
+		rotate_y(map, -0.01);
 	/*bottom arrow*/
 	if (key == 65364 || key == 125)
-		shift_y(map, 1);
+		shift_y(map, 5);
 	/*minus*/
 	if (key == 45)
 		;
