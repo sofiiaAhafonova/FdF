@@ -16,7 +16,8 @@
 #include "libft/libft.h"
 #include "minilibx_macos/mlx.h"
 #include <math.h>
-
+#define PI 3.14159265
+#define DEEGRE PI/180
 typedef struct	s_dot
 {
 	int x;
@@ -32,6 +33,9 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
+	int x0;
+	int y0;
+	int z0;
 }				t_map;
 
 t_map	*read_map(int fd, t_list **list);

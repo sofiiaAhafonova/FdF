@@ -17,7 +17,7 @@
 #include "get_next_line.h"
 #include "fdf.h"
 #include <math.h>
-
+#include <stdio.h>
 void print_map(t_map *map)
 {
 	t_dot cur;
@@ -158,11 +158,14 @@ int main(int argc, char **argv)
 	map->window = window;
 	map->zoom = start_zoom(map);
 	map = zoom_map(map);
-	shift_x(map, 900);
-	shift_y(map, 500);
-//	rotate_z(map,  12.2);
-	rotate_y(map, 0.1);
-	rotate_x(map,  -0.25);
+	map->x0 = 700;
+	map->y0 = 300;
+	map->z0 = 0;
+	shift_x(map, map->x0);
+	shift_y(map, map->y0);
+	//rotate_z(map, 14 *  DEEGRE);
+	//rotate_y(map,15 * DEEGRE);
+//	rotate_x(map,  1 * DEEGRE);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);

@@ -17,7 +17,7 @@
 int 	is_movement(int key)
 {
 	return (key == 65363 || key == 124 || key == 65362 || key == 126 || key == 65361 || key == 123
-	|| key == 65364 || key == 125);
+	|| key == 65364 || key == 125 || key == 120 || key == 122);
 }
 int 	on_key_press(int key, t_map *map)
 {
@@ -25,16 +25,22 @@ int 	on_key_press(int key, t_map *map)
 	ft_putendl("");
 	/*right arrow*/
 	if (key == 65363 || key == 124)
-		rotate_y(map, 0.01);
+		rotate_x(map, DEEGRE);
 	/*top arrow*/
 	if (key == 65362 || key == 126)
-		shift_y(map, -5);
+		rotate_y(map, DEEGRE);
 	/*left arrow*/
 	if (key == 65361 || key == 123)
-		rotate_y(map, -0.01);
+		rotate_x(map, -DEEGRE);
 	/*bottom arrow*/
 	if (key == 65364 || key == 125)
-		shift_y(map, 5);
+		rotate_y(map, DEEGRE);
+	/*z*/
+	if (key == 120 /*|| key == 123*/)
+		rotate_z(map, -DEEGRE);
+	/*x*/
+	if (key == 122 /*|| key == 125*/)
+		rotate_z(map, DEEGRE);
 	/*minus*/
 	if (key == 45)
 		;
