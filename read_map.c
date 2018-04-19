@@ -65,32 +65,31 @@ int     *str_to_arr(char *str, int col)
     return (arr);
 }
 
-t_dot   *from_str_to_dots(t_list *list, int len, int col)
+t_dot   **from_str_to_dots(t_list *list, int row, int col)
 {
-    t_dot   *dots;
+    t_dot   **dots;
     t_list  *head;
     int     i;
     int     j;
-    int     k;
 
-    if (!list || len <= 0 || !(dots = (t_dot*)malloc(sizeof(t_dot) * (len + 1))))
+    if (!list || !(dots = (t_dot**)malloc(sizeof(t_dot*) * (row))))
         return (NULL);
     head = list;
-    k = len;
-    j = 0;
-    while (list)
+    i = row;
+    while (list && --i > -1)
     {
-        i = col;
-        while (--k > -1 && --i > - 1)
+        if (!(dots[i] = (t_dot*)malloc(sizeof(t_dot)* col)))
+			return (NULL);
+        j = -1;
+        while (++j < col)
         {
-            dots[k].x = i;
-            dots[k].y = j;
-            dots[k].z = ((int*)list->content)[i];
+            dots[i][j].x = j;
+            dots[i][j].y = i;
+            dots[i][j].z = ((int*)list->content)[j];
         }
         list = list->next;
-        k++;
-        j++;
     }
+    ft_lstdel(&head, &del);
     return (dots);
 }
 
@@ -104,7 +103,7 @@ t_map   *map_params(int col, t_list *list)
     map = (t_map*)malloc(sizeof(t_map));
     if (!map)
         return (NULL);
-    map->col = (unsigned int)col;
+    map->col = col;
     map->row = 0;
     cur = list;
     while (cur)
@@ -112,7 +111,7 @@ t_map   *map_params(int col, t_list *list)
         cur = cur->next;
         (map->row)++;
     }
-    map->dots = from_str_to_dots(list, map->row * map->col, map->col);   
+    map->dots = from_str_to_dots(list,map->row, map->col);
     return (map);
 }
 

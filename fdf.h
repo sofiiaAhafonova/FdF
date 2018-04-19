@@ -27,9 +27,9 @@ typedef struct	s_dot
 
 typedef struct	s_map
 {
-	unsigned int row;
-	unsigned int col;
-	t_dot		*dots;
+	int row;
+	int col;
+	t_dot		**dots;
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;

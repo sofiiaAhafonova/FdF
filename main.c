@@ -20,23 +20,25 @@
 #include <stdio.h>
 void print_map(t_map *map)
 {
+	int i;
+	int j;
 	t_dot cur;
-	unsigned int k;
 
 	if (!map)
-		return;
-	k = 0;
-	// ft_putnbr((int)map->col);
-	while (k < map->row * map->col)
+		return ;
+	i = -1;
+	while (++i < map->row)
 	{
-		cur = map->dots[k];
-		if (cur.z < 10 && cur.x > 0)
+		j = -1;
+		while (++j < map->col)
+		{
+			cur = map->dots[i][j];
+			if (cur.z < 10 && cur.x > 0)
+				ft_putchar(' ');
+			ft_putnbr(cur.z);
 			ft_putchar(' ');
-		ft_putnbr(cur.z);
-		ft_putchar(' ');
-		if (cur.x == (int)map->col - 1)
-			ft_putchar('\n');
-		k++;
+		}
+		ft_putchar('\n');
 	}
 }
 
@@ -96,38 +98,49 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 
 t_map *zoom_map(t_map *map)
 {
-	int k;
+	int i;
+	int j;
 	t_dot cur;
 
-	k = -1;
-	while (++k < (int)(map->col * map->row))
+	if (!map)
+		return (0);
+	i = -1;
+	while (++i < map->row)
 	{
-		cur = map->dots[k];
-		cur.x *= map->zoom;
-		cur.y *= map->zoom;
-		cur.z *= map->zoom;
-		map->dots[k] = cur;
+		j = -1;
+		while (++j < map->col)
+		{
+			cur = map->dots[i][j];
+			cur.x *= map->zoom;
+			cur.y *= map->zoom;
+			cur.z *= map->zoom;
+			map->dots[i][j] = cur;
+		}
 	}
 	return (map);
 }
 
 int put_image(void *mlx_ptr, void *window, t_map *map)
 {
-	int k;
+	int i;
+	int j;
 	t_dot cur;
 
 	if (!mlx_ptr || !window)
 		return (1);
-	k = -1;
-
-	while (++k < (int)(map->col * map->row))
+	i = -1;
+	while (++i < map->row)
 	{
-		cur = map->dots[k];
-		mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
-		if (k < (int)(map->col * (map->row - 1)))
-			line(cur, map->dots[k + map->col], mlx_ptr, window);
-		if (map->dots[k + 1].x && map->dots[k + 1].x != map->dots[0].x)
-			line(cur, map->dots[k + 1], mlx_ptr, window);
+		j = -1;
+		while (++j < map->col)
+		{
+			cur = map->dots[i][j];
+			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
+			if (j != map->col - 1)
+				line(cur, map->dots[i][j + 1], mlx_ptr, window);
+			if (i != map->row - 1)
+				line(cur, map->dots[i + 1][j], mlx_ptr, window);
+		}
 	}
 	return (0);
 }
@@ -158,13 +171,13 @@ int main(int argc, char **argv)
 	map->window = window;
 	map->zoom = start_zoom(map);
 	map = zoom_map(map);
-	map->x0 = 700;
-	map->y0 = 300;
+	map->x0 = 200;
+	map->y0 = 50;
 	map->z0 = 0;
 	shift_x(map, map->x0);
 	shift_y(map, map->y0);
 	//rotate_z(map, 14 *  DEEGRE);
-	//rotate_y(map,15 * DEEGRE);
+	rotate_y(map,-3 * DEEGRE);
 //	rotate_x(map,  1 * DEEGRE);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
