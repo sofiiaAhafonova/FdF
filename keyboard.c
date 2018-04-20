@@ -48,22 +48,22 @@ int 	on_key_press(int key, t_map *map)
 	ft_putendl("");
 	/*right arrow*/
 	if (key == 65363 || key == 124)
-		rotate_x(map, DEEGRE);
+		rotate_x(map, 0.001);
 	/*top arrow*/
 	if (key == 65362 || key == 126)
-		rotate_y(map, DEEGRE);
+		rotate_y(map, 0.001);
 	/*left arrow*/
 	if (key == 65361 || key == 123)
-		rotate_x(map, -DEEGRE);
+		rotate_x(map, -0.001);
 	/*bottom arrow*/
 	if (key == 65364 || key == 125)
-		rotate_y(map, -DEEGRE);
+		rotate_y(map, -0.001);
 	/*z*/
 	if (key == 120 /*|| key == 123*/)
-		rotate_z(map, -DEEGRE);
+		rotate_z(map, -0.001);
 	/*x*/
 	if (key == 122 /*|| key == 125*/)
-		rotate_z(map, DEEGRE);
+		rotate_z(map, 0.001);
 	/*minus or plus*/
 	if (key == 45 || key == 61)
 	{

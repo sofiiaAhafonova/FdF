@@ -33,6 +33,9 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
+	double x_angle;
+	double y_angle;
+	double z_angle;
 	int x0;
 	int y0;
 	int z0;
