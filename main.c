@@ -32,7 +32,7 @@ void print_map(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->dots[i][j];
+			cur = map->original[i][j];
 			if (cur.z < 10 && cur.x > 0)
 				ft_putchar(' ');
 			ft_putnbr(cur.z);
@@ -96,28 +96,28 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 	}
 }
 
-t_map *zoom_map(t_map *map)
+void zoom_map(t_map *map)
 {
 	int i;
 	int j;
 	t_dot cur;
 
-	if (!map)
-		return (0);
+	if (!map || map->zoom < 1)
+		return ;
 	i = -1;
 	while (++i < map->row)
 	{
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->dots[i][j];
+			cur = map->original[i][j];
 			cur.x *= map->zoom;
 			cur.y *= map->zoom;
 			cur.z *= map->zoom;
-			map->dots[i][j] = cur;
+			map->original[i][j] = cur;
 		}
 	}
-	return (map);
+	return ;
 }
 
 int put_image(void *mlx_ptr, void *window, t_map *map)
@@ -134,12 +134,12 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->dots[i][j];
+			cur = map->original[i][j];
 			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
 			if (j != map->col - 1)
-				line(cur, map->dots[i][j + 1], mlx_ptr, window);
+				line(cur, map->original[i][j + 1], mlx_ptr, window);
 			if (i != map->row - 1)
-				line(cur, map->dots[i + 1][j], mlx_ptr, window);
+				line(cur, map->original[i + 1][j], mlx_ptr, window);
 		}
 	}
 	return (0);
@@ -169,16 +169,21 @@ int main(int argc, char **argv)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
 	map->window = window;
+    map->x0 = 0;
+    map->y0 = 0;
+    map->z0 = 0;
 	map->zoom = start_zoom(map);
-	map = zoom_map(map);
-	map->x0 = 400;
-	map->y0 = 340;
+	zoom_map(map);
+	map->offset_x = map->original[0][map->col - 1].x / 2;
+	map->offset_y = map->original[map->row - 1][0].y / 2 ;
+	map->x0 = 600;
+	map->y0 = 800;
 	map->z0 = 0;
 	map->z_angle = -3 *  DEEGRE;
-	map->y_angle = 2.5 *  DEEGRE;
+	map->y_angle = 100 *  DEEGRE;
 	map->x_angle = -4 *  DEEGRE;
-	shift_x(map, map->x0);
-	shift_y(map, map->y0);
+	shift(map, map->x0, 'x');
+	shift(map, map->y0, 'y');
 	rotate_z(map, 0);
 	rotate_x(map, 0);
 	rotate_y(map, 0);
