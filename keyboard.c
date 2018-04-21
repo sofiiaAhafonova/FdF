@@ -28,7 +28,7 @@ void	original_size(t_map *map)
 	int j;
 	t_dot cur;
 
-	if (!map)
+	if (!map || map->zoom < 1)
 		return ;
 	i = -1;
 	while (++i < map->row)
@@ -39,7 +39,7 @@ void	original_size(t_map *map)
 			cur = map->original[i][j];
 			cur.x = j;
 			cur.y = i;
-            cur.z /= map->zoom;
+			cur.z /= map->zoom;
 			map->original[i][j] = cur;
 		}
 	}
