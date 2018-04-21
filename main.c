@@ -111,8 +111,8 @@ void zoom_map(t_map *map)
 		while (++j < map->col)
 		{
 			cur = map->original[i][j];
-			cur.x *= map->zoom;
-			cur.y *= map->zoom;
+			cur.x = j *map->zoom;
+			cur.y =i * map->zoom;
 			cur.z *= map->zoom;
 			map->original[i][j] = cur;
 		}
@@ -164,7 +164,7 @@ int main(int argc, char **argv)
 	void *mlx_ptr = mlx_init();
 	if (!mlx_ptr)
 		return (print_error("mlx init error"));
-	void *window = mlx_new_window(mlx_ptr, 1800, 1000, "test");
+	void *window = mlx_new_window(mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "test");
 	if (!window)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
@@ -176,8 +176,8 @@ int main(int argc, char **argv)
 	zoom_map(map);
 	map->offset_x = map->original[0][map->col - 1].x / 2;
 	map->offset_y = map->original[map->row - 1][0].y / 2 ;
-	map->x0 = 600;
-	map->y0 = 800;
+	map->x0 = SCREEN_WIDTH / 2 + map->offset_x;
+	map->y0 = SCREEN_HEIGHT /2 + map->offset_y;
 	map->z0 = 0;
 	map->z_angle = -3 *  DEEGRE;
 	map->y_angle = 100 *  DEEGRE;

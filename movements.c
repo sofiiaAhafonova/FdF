@@ -38,8 +38,8 @@ void rotate_z(t_map *map, double angle)
 			map->original[i][j].y = (int)round( ((map->zoom *i - map->offset_x) * cos(map->z_angle) - (map->zoom *j - map->offset_y) * sin(map->z_angle)))+ map->y0;
 		}
 	}
-	//rotate_x(map, 0);
-    //rotate_y(map, 0);
+	rotate_x(map, 0);
+    rotate_y(map, 0);
 
 }
 
@@ -61,8 +61,6 @@ void rotate_x(t_map *map, double angle)
 //                                                       (map->zoom *i - map->offset_x)* sin(map->x_angle )) + map->z0;
 		}
 	}
-//	map->y0 = map->original[0][0].y;
-//	map->z0 = map->original[0][0].z;
 }
 void rotate_y(t_map *map, double angle)
 {
@@ -78,8 +76,8 @@ void rotate_y(t_map *map, double angle)
 		{
 			map->original[i][j].x = (int)round ((j * map->zoom - map->offset_y)* cos(map->y_angle) +
 											(map->original[i][j].z - map->z0)* sin(map->y_angle))  + map->x0 -  map->offset_x;
-			//map->original[i][j].z = (int)round ((map->original[i][j].z - map->z0) * cos(map->y_angle) -
-										//	j * map->zoom * sin(map->y_angle)) + map->z0;
+//			map->original[i][j].z = (int)round ((map->original[i][j].z - map->z0) * cos(map->y_angle) -
+//                                                        (j * map->zoom - map->offset_y) * sin(map->y_angle)) + map->z0;
 		}
 	}
 //	map->x0 = map->original[0][0].x;

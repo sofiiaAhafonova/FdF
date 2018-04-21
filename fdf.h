@@ -19,6 +19,8 @@
 #define PI 3.14159265
 #define DEEGRE PI/180
 #define SHIFT 5
+#define SCREEN_WIDTH 1800
+#define SCREEN_HEIGHT 1000
 typedef struct	s_dot
 {
 	int x;

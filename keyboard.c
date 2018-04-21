@@ -28,7 +28,7 @@ void	original_size(t_map *map)
 	int j;
 	t_dot cur;
 
-	if (!map || map->zoom < 1)
+	if (!map)
 		return ;
 	i = -1;
 	while (++i < map->row)
@@ -37,9 +37,9 @@ void	original_size(t_map *map)
 		while (++j < map->col)
 		{
 			cur = map->original[i][j];
-			cur.x = (cur.x) / map->zoom;
-			cur.y = (cur.y) /map->zoom;
-			cur.z  = (cur.z) /map->zoom;
+			cur.x = j;
+			cur.y = i;
+            cur.z /= map->zoom;
 			map->original[i][j] = cur;
 		}
 	}
@@ -84,6 +84,10 @@ int 	on_key_press(int key, t_map *map)
 		original_size(map);
 		(key == 45 || key == 27) ? map->zoom-- : map->zoom++;
 		zoom_map(map);
+        rotate_x(map, 0);
+        rotate_y(map, 0);
+        shift(map, 0, 'x');
+        shift(map, 0, 'y');
 	}
 	if (key == 53 || key == 65307)
 		exit(EXIT_SUCCESS);
