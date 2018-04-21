@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 	map->zoom = start_zoom(map);
 	map = zoom_map(map);
 	map->x0 = 400;
-	map->y0 = 140;
+	map->y0 = 340;
 	map->z0 = 0;
 	map->z_angle = -3 *  DEEGRE;
 	map->y_angle = 2.5 *  DEEGRE;
@@ -180,6 +180,8 @@ int main(int argc, char **argv)
 	shift_x(map, map->x0);
 	shift_y(map, map->y0);
 	rotate_z(map, 0);
+	rotate_x(map, 0);
+	rotate_y(map, 0);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
 	mlx_loop(mlx_ptr);
