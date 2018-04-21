@@ -33,6 +33,7 @@ typedef struct	s_map
 	int row;
 	int col;
 	t_dot		**original;
+	t_dot		**offset;
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;

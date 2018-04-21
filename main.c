@@ -134,12 +134,12 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->original[i][j];
+			cur = map->offset[i][j];
 			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
 			if (j != map->col - 1)
-				line(cur, map->original[i][j + 1], mlx_ptr, window);
+				line(cur, map->offset[i][j + 1], mlx_ptr, window);
 			if (i != map->row - 1)
-				line(cur, map->original[i + 1][j], mlx_ptr, window);
+				line(cur, map->offset[i + 1][j], mlx_ptr, window);
 		}
 	}
 	return (0);
@@ -174,6 +174,10 @@ int main(int argc, char **argv)
     map->z0 = 0;
 	map->zoom = start_zoom(map);
 	zoom_map(map);
+    map->offset = (t_dot**)malloc(sizeof(t_dot *) * map->row);
+    int i = -1;
+    while (++i < map->row)
+        map->offset[i] = malloc(sizeof(t_dot)*map->col);
 	map->offset_x = map->original[0][map->col - 1].x / 2;
 	map->offset_y = map->original[map->row - 1][0].y / 2 ;
 	map->x0 = SCREEN_WIDTH / 2 + map->offset_x;
