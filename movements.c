@@ -34,13 +34,11 @@ void rotate_z(t_map *map, double angle)
 		j = -1;
 		while (++j < map->col)
 		{
-			map->offset[i][j].x = (int)round( ((map->offset[i][j].x - map->x0) * cos(map->z_angle) + (map->offset[i][j].y - map->y0)* sin(map->z_angle))) + map->x0;
-			map->offset[i][j].y = (int)round( ((map->offset[i][j].y - map->y0) * cos(map->z_angle) - (map->offset[i][j].x - map->x0) * sin(map->z_angle)))+ map->y0;
+			map->offset[i][j].x = (int)round( (map->offset[i][j].x * cos(map->z_angle) + map->offset[i][j].y * sin(map->z_angle))) ;
+			map->offset[i][j].y = (int)round( (map->offset[i][j].y * cos(map->z_angle) - map->offset[i][j].x * sin(map->z_angle)));
+			map->offset[i][j].color = map->original[i][j].color;
 		}
 	}
-//	rotate_x(map, 0);
-//    rotate_y(map, 0);
-
 }
 
 void rotate_x(t_map *map, double angle)
@@ -57,6 +55,7 @@ void rotate_x(t_map *map, double angle)
 		{
 			map->offset[i][j].y = (int)round(map->original[i][j].y *cos(map->x_angle) + map->original[i][j].z * sin(map->x_angle )) + map->y0 - map->offset_y;
 			map->offset[i][j].z = (int)round(map->original[i][j].z * cos(map->x_angle) - map->original[i][j].y * sin(map->x_angle )) + map->z0;
+			map->offset[i][j].color = map->original[i][j].color;
 		}
 	}
 }
@@ -74,6 +73,7 @@ void rotate_y(t_map *map, double angle)
 		{
 			map->offset[i][j].x = (int)round (map->original[i][j].x * cos(map->y_angle) + map->original[i][j].z * sin(map->y_angle))  + map->x0 -  map->offset_x;
 			map->offset[i][j].z = (int)round (map->original[i][j].z * cos(map->y_angle) - map->original[i][j].x * sin(map->y_angle)) + map->z0;
+			map->offset[i][j].color = map->original[i][j].color;
 		}
 	}
 }

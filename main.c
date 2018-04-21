@@ -79,7 +79,7 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(ret, window, A.x, A.y, 100700100);
+		mlx_pixel_put(ret, window, A.x, A.y, A.color);
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
@@ -135,7 +135,7 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		while (++j < map->col)
 		{
 			cur = map->offset[i][j];
-			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, 100700100);
+			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, cur.color);
 			if (j != map->col - 1)
 				line(cur, map->offset[i][j + 1], mlx_ptr, window);
 			if (i != map->row - 1)
@@ -183,8 +183,8 @@ int main(int argc, char **argv)
 	map->x0 = SCREEN_WIDTH / 2 + map->offset_x;
 	map->y0 = SCREEN_HEIGHT /2 + map->offset_y;
 	map->z0 = 0;
-	map->z_angle = -3 *  DEEGRE;
-	map->y_angle = 100 *  DEEGRE;
+	map->z_angle = 5 *  DEEGRE;
+	map->y_angle = 1 *  DEEGRE;
 	map->x_angle = -4 *  DEEGRE;
 	shift(map, map->x0, 'x');
 	shift(map, map->y0, 'y');
