@@ -181,8 +181,6 @@ int main(int argc, char **argv)
 	map->wz = 0 *  DEEGRE;
 	map->wy = 0 *  DEEGRE;
 	map->wx = 0 *  DEEGRE;
-	shift(map, 0, 'x');
-	shift(map, 0, 'y');
 	rotate(map);
 	put_image(mlx_ptr, window, map);
 	mlx_key_hook(window, on_key_press, map);
