@@ -19,7 +19,8 @@ int 	is_movement(int key)
 	return (key == 65363 || key == 124 || key == 65362 || key == 126 || key == 65361 || key == 123
 	|| key == 65364 || key == 125 || key == 120 || key == 122
 			|| key == 27 || key == 24 || key == 45 || key == 61 || key == 7 ||
-			key == 6 || key == 1 || key == 2 || key == 0 || key == 13);
+			key == 6 || key == 1 || key == 2 || key == 0 || key == 13 ||
+	key == 119 || key == 97 || key == 115 || key == 100);
 }
 
 void	original_size(t_map *map)
@@ -49,16 +50,16 @@ int 	on_key_press(int key, t_map *map)
 	ft_putnbr(key);
 	ft_putendl("");
 	/*w*/
-	if (key == 13)
+	if (key == 13 || key == 119)
 		shift(map, -SHIFT, 'y');
 	/*a*/
-	if (key == 0)
+	if (key == 0 || key == 97)
 		shift(map, -SHIFT, 'x');
 	/*d*/
-	if (key == 2)
+	if (key == 2 || key == 100)
 		shift(map, SHIFT, 'x');
 	/*s*/
-	if (key == 1)
+	if (key == 1 || key == 115)
 		shift(map, SHIFT, 'y');
 	/*right arrow*/
 	if (key == 65363 || key == 124)
