@@ -79,7 +79,7 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(ret, window, A.x, A.y, A.color);
+		mlx_pixel_put(ret, window, A.x, A.y, --A.color);
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
