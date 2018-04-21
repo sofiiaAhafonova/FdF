@@ -38,12 +38,9 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
-	double x_angle;
-	double y_angle;
-	double z_angle;
-	int x0;
-	int y0;
-	int z0;
+	double wx;
+	double wy;
+	double wz;
     int offset_x;
     int offset_y;
 }				t_map;
@@ -55,7 +52,6 @@ void	shift(t_map *map, int shift, char axis);
 int put_image(void *mlx_ptr, void *window, t_map *map);
 void    zoom_map(t_map *map);
 void line(t_dot A, t_dot B, void *ret, void *window);
-void 	rotate_z(t_map *map, double angle);
-void 	rotate_x(t_map *map, double angle);
-void 	rotate_y(t_map *map, double angle);
+void 	rotate(t_map *map);
+
 #endif

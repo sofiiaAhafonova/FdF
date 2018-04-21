@@ -62,30 +62,29 @@ int 	on_key_press(int key, t_map *map)
 		shift(map, SHIFT, 'y');
 	/*right arrow*/
 	if (key == 65363 || key == 124)
-		rotate_x(map,DEEGRE);
+		map->wx += 2*DEEGRE;
 	/*top arrow*/
 	if (key == 65362 || key == 126)
-		rotate_y(map,DEEGRE);
+		map->wy += 2*DEEGRE;
 	/*left arrow*/
 	if (key == 65361 || key == 123)
-		rotate_x(map, -DEEGRE);
+		map->wx -=2* DEEGRE;
 	/*bottom arrow*/
 	if (key == 65364 || key == 125)
-		rotate_y(map, -DEEGRE);
+		map->wy -= 2*DEEGRE;
 	/*z*/
 	if (key == 120 || key == 6)
-		rotate_z(map, -DEEGRE);
+		map->wz -= 2*DEEGRE;
 	/*x*/
 	if (key == 122 || key == 7)
-		rotate_z(map, DEEGRE);
+		map->wz += 2*DEEGRE;
 	/*minus or plus*/
 	if (key == 27 || key == 24 || key == 45 || key == 61)
 	{
 		original_size(map);
 		(key == 45 || key == 27) ? map->zoom-- : map->zoom++;
 		zoom_map(map);
-        rotate_x(map, 0);
-        rotate_y(map, 0);
+        rotate(map);
         shift(map, 0, 'x');
         shift(map, 0, 'y');
 	}
@@ -93,6 +92,7 @@ int 	on_key_press(int key, t_map *map)
 		exit(EXIT_SUCCESS);
 	if (is_movement(key))
 	{
+		rotate(map);
 		mlx_clear_window(map->mlx_ptr, map->window);
 		put_image(map->mlx_ptr, map->window, map);
 	}

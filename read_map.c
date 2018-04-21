@@ -114,6 +114,7 @@ t_map   *map_params(int col, t_list *list)
         cur = cur->next;
         (map->row)++;
     }
+
     map->original = from_str_to_dots(list,map->row, map->col);
     return (map);
 }
