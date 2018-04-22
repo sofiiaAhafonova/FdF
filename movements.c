@@ -1,5 +1,6 @@
 #include "fdf.h"
 #include <math.h>
+
 void	shift(t_map *map, int shift, char axis)
 {
     if (axis == 'x')

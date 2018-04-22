@@ -65,11 +65,10 @@ int     *str_to_arr(char *str, int col)
     return (arr);
 }
 
-t_dot   **from_str_to_dots(t_list *list, int row, int col)
+t_dot   **from_str_to_dots(t_list *list, int row, int col, int color)
 {
     t_dot   **dots;
     t_list  *head;
-    int     color;
     int     i;
     int     j;
 
@@ -77,7 +76,6 @@ t_dot   **from_str_to_dots(t_list *list, int row, int col)
         return (NULL);
     head = list;
     i = row;
-    color = ZERO_LEVEL_COLOR;
     while (list && --i > -1)
     {
         if (!(dots[i] = (t_dot*)malloc(sizeof(t_dot)* col)))
@@ -108,6 +106,7 @@ t_map   *map_params(int col, t_list *list)
         return (NULL);
     map->col = col;
     map->row = 0;
+	set_color(map,153,50,204);
     cur = list;
     while (cur)
     {
@@ -115,7 +114,7 @@ t_map   *map_params(int col, t_list *list)
         (map->row)++;
     }
 
-    map->original = from_str_to_dots(list,map->row, map->col);
+    map->original = from_str_to_dots(list,map->row, map->col, map->color);
     return (map);
 }
 

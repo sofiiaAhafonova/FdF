@@ -22,6 +22,36 @@
 #define SCREEN_WIDTH 1800
 #define SCREEN_HEIGHT 1000
 #define ZERO_LEVEL_COLOR 300200000
+#define MOVE_UP_KEY 13
+#define MOVE_UP_KEY_LINUX 119
+#define MOVE_DOWN_KEY 1
+#define MOVE_DOWN_KEY_LINUX 115
+#define MOVE_LEFT_KEY 0
+#define MOVE_LEFT_KEY_LINUX 97
+#define X_ROTATION_POSITIVE 124
+#define X_ROTATION_POSITIVE_LINUX 65363
+#define Y_ROTATION_POSITIVE 126
+#define Y_ROTATION_POSITIVE_LINUX 65362
+#define Z_ROTATION_POSITIVE 7
+#define Z_ROTATION_POSITIVE_LINUX 122
+#define X_ROTATION_NEGATIVE 123
+#define X_ROTATION_NEGATIVE_LINUX 65361
+#define Y_ROTATION_NEGATIVE 125
+#define Y_ROTATION_NEGATIVE_LINUX 65364
+#define Z_ROTATION_NEGATIVE 6
+#define Z_ROTATION_NEGATIVE_LINUX 120
+#define X_AXIS 'x'
+#define Y_AXIS 'y'
+#define ZOOM_IN_KEY 24
+#define ZOOM_IN_KEY_LINUX 61
+#define ZOOM_OUT_KEY 27
+#define ZOOM_OUT_KEY_LINUX 45
+#define ESC 53
+#define ESC_LINUX 65307
+#define RED_KEY_LINUX 114
+#define GREEN_KEY_LINUX 103
+#define BLUE_KEY_LINUX 98
+
 typedef struct	s_dot
 {
 	int x;
@@ -39,6 +69,7 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
+	int			color;
 	double wx;
 	double wy;
 	double wz;
@@ -49,6 +80,7 @@ typedef struct	s_map
 t_map	*read_map(int fd, t_list **list);
 void	del(void *cont, size_t size);
 int 	on_key_press(int key, t_map *map);
+int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue);
 void	shift(t_map *map, int shift, char axis);
 int put_image(void *mlx_ptr, void *window, t_map *map);
 void    zoom_map(t_map *map);

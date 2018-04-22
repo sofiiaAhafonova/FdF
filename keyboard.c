@@ -13,10 +13,11 @@
 #include "minilibx_macos/mlx.h"
 #include <stdlib.h>
 #include "libft/libft.h"
+#include <stdio.h>
 
 int 	is_movement(int key)
 {
-	return (key == 65363 || key == 124 || key == 65362 || key == 126 || key == 65361 || key == 123
+	return (key == MOVE_UP_KEY || key == MOVE_UP_KEY_LINUX || key == 65362 || key == 126 || key == 65361 || key == 123
 	|| key == 65364 || key == 125 || key == 120 || key == 122
 			|| key == 27 || key == 24 || key == 45 || key == 61 || key == 7 ||
 			key == 6 || key == 1 || key == 2 || key == 0 || key == 13 ||
@@ -46,6 +47,14 @@ void	original_size(t_map *map)
 	}
 }
 
+int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue)
+{
+	int shift;
+
+	if (!map)
+		return (-1);
+	map->color = 65536 * red + 256 * green + blue;
+}
 int		close_window()
 {
 	exit(EXIT_SUCCESS);
@@ -53,50 +62,51 @@ int		close_window()
 
 int 	on_key_press(int key, t_map *map)
 {
-	ft_putnbr(key);
-	ft_putendl("");
+//	ft_putnbr(key);
+//	ft_putendl("");
+	if (key == ESC || key == ESC_LINUX)
+		return (close_window());
 	/*w*/
-	if (key == 13 || key == 119)
-		shift(map, -SHIFT, 'y');
+	if (key == MOVE_UP_KEY_LINUX || key == MOVE_UP_KEY)
+		shift(map, -SHIFT, Y_AXIS);
 	/*a*/
-	if (key == 0 || key == 97)
-		shift(map, -SHIFT, 'x');
+	if (MOVE_LEFT_KEY == key || key == MOVE_LEFT_KEY_LINUX)
+		shift(map, -SHIFT, X_AXIS);
 	/*d*/
 	if (key == 2 || key == 100)
-		shift(map, SHIFT, 'x');
+		shift(map, SHIFT, X_AXIS);
 	/*s*/
-	if (key == 1 || key == 115)
-		shift(map, SHIFT, 'y');
+	if (MOVE_DOWN_KEY == key || MOVE_DOWN_KEY_LINUX == key)
+		shift(map, SHIFT, Y_AXIS);
 	/*right arrow*/
-	if (key == 65363 || key == 124)
+	if (key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE)
 		map->wx += 2*DEEGRE;
 	/*top arrow*/
-	if (key == 65362 || key == 126)
+	if (key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX)
 		map->wy += 2*DEEGRE;
 	/*left arrow*/
-	if (key == 65361 || key == 123)
+	if (key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX)
 		map->wx -=2* DEEGRE;
 	/*bottom arrow*/
-	if (key == 65364 || key == 125)
+	if (key == Y_ROTATION_NEGATIVE || key == Y_ROTATION_NEGATIVE_LINUX)
 		map->wy -= 2*DEEGRE;
 	/*z*/
-	if (key == 120 || key == 6)
+	if (key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX)
 		map->wz -= 2*DEEGRE;
 	/*x*/
-	if (key == 122 || key == 7)
+	if (key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX)
 		map->wz += 2*DEEGRE;
 	/*minus or plus*/
-	if (key == 27 || key == 24 || key == 45 || key == 61)
+	if (key == RED_KEY_LINUX)
+		;
+//		map->color > 0;
+	if (key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX || key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX)
 	{
 		original_size(map);
-		(key == 45 || key == 27) ? map->zoom-- : map->zoom++;
+		(key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX) ? map->zoom-- : map->zoom++;
 		zoom_map(map);
         rotate(map);
-        shift(map, 0, 'x');
-        shift(map, 0, 'y');
 	}
-	if (key == 53 || key == 65307)
-		return (close_window());
 	if (is_movement(key))
 	{
 		rotate(map);
