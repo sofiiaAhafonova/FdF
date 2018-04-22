@@ -198,12 +198,14 @@ int main(int argc, char **argv)
     int i = -1;
     while (++i < map->row)
         map->offset[i] = malloc(sizeof(t_dot)*map->col);
-	map->offset_x = SCREEN_WIDTH / 2 ;
-	map->offset_y =  SCREEN_HEIGHT /2 ;
+	map->offset_x = SCREEN_WIDTH / 4 ;
+	map->offset_y =  SCREEN_HEIGHT /4 ;
 	map->wz = 0 *  DEEGRE;
 	map->wy = 0 *  DEEGRE;
 	map->wx = 0 *  DEEGRE;
 	rotate(map);
+	shift(map, 0, X_AXIS);
+	shift(map, 0, Y_AXIS);
 	put_image(mlx_ptr, window, map);
 	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
 	mlx_hook(map->window,2, 5, on_key_press, map);

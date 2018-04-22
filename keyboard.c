@@ -108,6 +108,8 @@ int 	on_key_press(int key, t_map *map)
 	if (is_movement(key))
 	{
 		rotate(map);
+		shift(map, 0, X_AXIS);
+		shift(map, 0, Y_AXIS);
 		mlx_clear_window(map->mlx_ptr, map->window);
 		put_image(map->mlx_ptr, map->window, map);
 	}
