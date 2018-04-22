@@ -21,6 +21,7 @@
 #define SHIFT 5
 #define SCREEN_WIDTH 1800
 #define SCREEN_HEIGHT 1000
+#define ZERO_LEVEL_COLOR 300200000
 typedef struct	s_dot
 {
 	int x;
@@ -53,5 +54,6 @@ int put_image(void *mlx_ptr, void *window, t_map *map);
 void    zoom_map(t_map *map);
 void line(t_dot A, t_dot B, void *ret, void *window);
 void 	rotate(t_map *map);
+int		close_window();
 
 #endif

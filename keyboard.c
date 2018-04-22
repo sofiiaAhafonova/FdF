@@ -45,6 +45,12 @@ void	original_size(t_map *map)
 		}
 	}
 }
+
+int		close_window()
+{
+	exit(EXIT_SUCCESS);
+}
+
 int 	on_key_press(int key, t_map *map)
 {
 	ft_putnbr(key);
@@ -90,7 +96,7 @@ int 	on_key_press(int key, t_map *map)
         shift(map, 0, 'y');
 	}
 	if (key == 53 || key == 65307)
-		exit(EXIT_SUCCESS);
+		return (close_window());
 	if (is_movement(key))
 	{
 		rotate(map);

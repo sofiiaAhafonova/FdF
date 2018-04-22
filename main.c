@@ -183,7 +183,8 @@ int main(int argc, char **argv)
 	map->wx = 0 *  DEEGRE;
 	rotate(map);
 	put_image(mlx_ptr, window, map);
-	mlx_key_hook(window, on_key_press, map);
+	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
+	mlx_hook(map->window,2, 5, on_key_press, map);
 	mlx_loop(mlx_ptr);
 	return (0);
 }

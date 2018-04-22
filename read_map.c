@@ -77,7 +77,7 @@ t_dot   **from_str_to_dots(t_list *list, int row, int col)
         return (NULL);
     head = list;
     i = row;
-    color = 100700100;
+    color = ZERO_LEVEL_COLOR;
     while (list && --i > -1)
     {
         if (!(dots[i] = (t_dot*)malloc(sizeof(t_dot)* col)))
@@ -88,7 +88,7 @@ t_dot   **from_str_to_dots(t_list *list, int row, int col)
             dots[i][j].x = j;
             dots[i][j].y = i;
             dots[i][j].z = ((int*)list->content)[j];
-            dots[i][j].color = color +  dots[i][j].z*10;
+            dots[i][j].color = color +  dots[i][j].z*15;
         }
         list = list->next;
     }
