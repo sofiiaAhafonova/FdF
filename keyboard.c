@@ -17,8 +17,8 @@
 
 int 	is_movement(int key)
 {
-	return (key == MOVE_UP_KEY || key == MOVE_UP_KEY_LINUX || key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY || key == MOVE_LEFT_KEY || key == MOVE_LEFT_KEY_LINUX
-	|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
+	return (key == MOVE_UP_KEY || key == MOVE_UP_KEY_LINUX || key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY_LINUX || key == MOVE_LEFT_KEY || key == MOVE_LEFT_KEY_LINUX
+	|| key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
 			|| key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX || key == Y_ROTATION_NEGATIVE ||
 			key == Y_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX ||
 	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX);
@@ -71,10 +71,10 @@ int 	on_key_press(int key, t_map *map)
 	if (MOVE_LEFT_KEY == key || key == MOVE_LEFT_KEY_LINUX)
 		shift(map, -SHIFT, X_AXIS);
 	/*d*/
-	if (key == 2 || key == 100)
+	if (key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX)
 		shift(map, SHIFT, X_AXIS);
 	/*s*/
-	if (MOVE_DOWN_KEY == key || MOVE_DOWN_KEY_LINUX == key)
+	if (key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY_LINUX)
 		shift(map, SHIFT, Y_AXIS);
 	/*right arrow*/
 	if (key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE)
