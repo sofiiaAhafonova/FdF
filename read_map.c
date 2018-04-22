@@ -86,7 +86,7 @@ t_dot   **from_str_to_dots(t_list *list, int row, int col, int color)
             dots[i][j].x = j;
             dots[i][j].y = i;
             dots[i][j].z = ((int*)list->content)[j];
-            dots[i][j].color = color +  dots[i][j].z*15;
+            dots[i][j].color = color +  dots[i][j].z*20;
         }
         list = list->next;
     }
@@ -106,14 +106,13 @@ t_map   *map_params(int col, t_list *list)
         return (NULL);
     map->col = col;
     map->row = 0;
-	set_color(map,153,50,204);
+	set_color(map,34,139,34);
     cur = list;
     while (cur)
     {
         cur = cur->next;
         (map->row)++;
     }
-
     map->original = from_str_to_dots(list,map->row, map->col, map->color);
     return (map);
 }

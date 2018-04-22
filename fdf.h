@@ -84,7 +84,7 @@ int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char
 void	shift(t_map *map, int shift, char axis);
 int put_image(void *mlx_ptr, void *window, t_map *map);
 void    zoom_map(t_map *map);
-void line(t_dot A, t_dot B, void *ret, void *window);
+int		line(t_dot A, t_dot B, void *ret, void *window);
 void 	rotate(t_map *map);
 int		close_window();
 

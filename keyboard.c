@@ -17,11 +17,11 @@
 
 int 	is_movement(int key)
 {
-	return (key == MOVE_UP_KEY || key == MOVE_UP_KEY_LINUX || key == 65362 || key == 126 || key == 65361 || key == 123
-	|| key == 65364 || key == 125 || key == 120 || key == 122
-			|| key == 27 || key == 24 || key == 45 || key == 61 || key == 7 ||
-			key == 6 || key == 1 || key == 2 || key == 0 || key == 13 ||
-	key == 119 || key == 97 || key == 115 || key == 100);
+	return (key == MOVE_UP_KEY || key == MOVE_UP_KEY_LINUX || key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY || key == MOVE_LEFT_KEY || key == MOVE_LEFT_KEY_LINUX
+	|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
+			|| key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX || key == Y_ROTATION_NEGATIVE ||
+			key == Y_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX ||
+	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX);
 }
 
 void	original_size(t_map *map)
@@ -49,8 +49,6 @@ void	original_size(t_map *map)
 
 int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue)
 {
-	int shift;
-
 	if (!map)
 		return (-1);
 	map->color = 65536 * red + 256 * green + blue;

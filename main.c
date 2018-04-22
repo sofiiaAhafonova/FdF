@@ -65,21 +65,44 @@ int start_zoom(t_map *map)
 	return (5);
 }
 
-void line(t_dot A, t_dot B, void *ret, void *window)
+int		vector_len(t_dot A)
+{
+	return (int)sqrt(A.x * A.x + A.y * A.y + A.z * A.z);
+}
+
+t_dot	module(t_dot A, t_dot B)
+{
+	t_dot D;
+
+	D.x = abs(B.x - A.x);
+	D.y = abs(B.y - A.y);
+	return (D);
+}
+
+t_dot	direction(t_dot A, t_dot B)
+{
+	t_dot S;
+
+	S.x = A.x < B.x ? 1 : -1;
+	S.y = A.y < B.y ? 1 : -1;
+	S.z = A.z < B.z ? 1 : -1;
+	S.color = S.z == 1 ? A.color : B.color;
+	return (S);
+}
+
+int	line(t_dot A, t_dot B, void *ret, void *window)
 {
 	int err;
 	int e2;
 	t_dot D;
 	t_dot S;
 
-	D.x = abs(B.x - A.x);
-	D.y = abs(B.y - A.y);
-	S.x = A.x < B.x ? 1 : -1;
-	S.y = A.y < B.y ? 1 : -1;
+	D = module(A, B);
+	S = direction(A, B);
 	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(ret, window, A.x, A.y, A.color);
+		mlx_pixel_put(ret, window, A.x, A.y, S.color);
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
@@ -94,6 +117,7 @@ void line(t_dot A, t_dot B, void *ret, void *window)
 			A.y += S.y;
 		}
 	}
+	return S.color;
 }
 
 void zoom_map(t_map *map)
@@ -117,7 +141,6 @@ void zoom_map(t_map *map)
 			map->original[i][j] = cur;
 		}
 	}
-	return ;
 }
 
 int put_image(void *mlx_ptr, void *window, t_map *map)
@@ -135,11 +158,11 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		while (++j < map->col)
 		{
 			cur = map->offset[i][j];
-			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, cur.color);
 			if (j != map->col - 1)
-				line(cur, map->offset[i][j + 1], mlx_ptr, window);
+				cur.color = line(cur, map->offset[i][j + 1], mlx_ptr, window);
 			if (i != map->row - 1)
-				line(cur, map->offset[i + 1][j], mlx_ptr, window);
+				cur.color = line(cur, map->offset[i + 1][j], mlx_ptr, window);
+			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, cur.color);
 		}
 	}
 	return (0);
