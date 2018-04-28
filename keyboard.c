@@ -38,11 +38,11 @@ void	original_size(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->original[i][j];
+			cur = map->base[i][j];
 			cur.x = j;
 			cur.y = i;
 			cur.z /= map->zoom;
-			map->original[i][j] = cur;
+			map->base[i][j] = cur;
 		}
 	}
 }
@@ -64,18 +64,20 @@ int 	on_key_press(int key, t_map *map)
 //	ft_putendl("");
 	if (key == ESC || key == ESC_LINUX)
 		return (close_window());
+	if (!is_movement(key))
+		return (0);
 	/*w*/
 	if (key == MOVE_UP_KEY_LINUX || key == MOVE_UP_KEY)
-		shift(map, -SHIFT, Y_AXIS);
+		map->offset_y -= SHIFT;
 	/*a*/
 	if (MOVE_LEFT_KEY == key || key == MOVE_LEFT_KEY_LINUX)
-		shift(map, -SHIFT, X_AXIS);
+		map->offset_x -= SHIFT;
 	/*d*/
 	if (key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX)
-		shift(map, SHIFT, X_AXIS);
+		map->offset_x += SHIFT;
 	/*s*/
 	if (key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY_LINUX)
-		shift(map, SHIFT, Y_AXIS);
+		map->offset_y += SHIFT;
 	/*right arrow*/
 	if (key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE)
 		map->wx += 2*DEEGRE;
@@ -103,15 +105,11 @@ int 	on_key_press(int key, t_map *map)
 		original_size(map);
 		(key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX) ? map->zoom-- : map->zoom++;
 		zoom_map(map);
-        rotate(map);
 	}
-	if (is_movement(key))
-	{
-		rotate(map);
-		shift(map, 0, X_AXIS);
-		shift(map, 0, Y_AXIS);
-		mlx_clear_window(map->mlx_ptr, map->window);
-		put_image(map->mlx_ptr, map->window, map);
-	}
+	rotate(map);
+	shift(map);
+	shift(map);
+	mlx_clear_window(map->mlx_ptr, map->window);
+	put_image(map->mlx_ptr, map->window, map);
 	return (0);
 }

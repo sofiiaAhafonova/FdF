@@ -32,7 +32,7 @@ void print_map(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->original[i][j];
+			cur = map->base[i][j];
 			if (cur.z < 10 && cur.x > 0)
 				ft_putchar(' ');
 			ft_putnbr(cur.z);
@@ -134,11 +134,11 @@ void zoom_map(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->original[i][j];
+			cur = map->base[i][j];
 			cur.x = j *map->zoom - (map->col * map->zoom)/2 ;
 			cur.y = i * map->zoom - (map->row * map->zoom)/2 ;
 			cur.z *= map->zoom;
-			map->original[i][j] = cur;
+			map->base[i][j] = cur;
 		}
 	}
 }
@@ -204,8 +204,8 @@ int main(int argc, char **argv)
 	map->wy = 0 *  DEEGRE;
 	map->wx = 0 *  DEEGRE;
 	rotate(map);
-	shift(map, 0, X_AXIS);
-	shift(map, 0, Y_AXIS);
+	shift(map);
+	shift(map);
 	put_image(mlx_ptr, window, map);
 	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
 	mlx_hook(map->window,2, 5, on_key_press, map);

@@ -66,7 +66,7 @@ typedef struct	s_map
 {
 	int row;
 	int col;
-	t_dot		**original;
+	t_dot		**base;
 	t_dot		**offset;
 	void		*window;
 	void		*mlx_ptr;
@@ -83,7 +83,7 @@ t_map	*read_map(int fd, t_list **list);
 void	del(void *cont, size_t size);
 int 	on_key_press(int key, t_map *map);
 int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue);
-void	shift(t_map *map, int shift, char axis);
+void	shift(t_map *map);
 int put_image(void *mlx_ptr, void *window, t_map *map);
 void    zoom_map(t_map *map);
 int		line(t_dot A, t_dot B, void *ret, void *window);
