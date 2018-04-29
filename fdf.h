@@ -54,13 +54,23 @@
 #define GREEN_KEY_LINUX 103
 #define BLUE_KEY_LINUX 98
 
+typedef struct	s_color
+{
+	int rgb;
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
+
+}				t_color;
+
 typedef struct	s_dot
 {
 	int x;
 	int y;
 	int z;
-	int color;
+	t_color color;
 }				t_dot;
+
 
 typedef struct	s_map
 {
@@ -71,7 +81,7 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
-	int			color;
+	t_color		color;
 	double wx;
 	double wy;
 	double wz;
@@ -82,12 +92,10 @@ typedef struct	s_map
 t_map	*read_map(int fd, t_list **list);
 void	del(void *cont, size_t size);
 int 	on_key_press(int key, t_map *map);
-int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue);
-void	shift(t_map *map);
-int put_image(void *mlx_ptr, void *window, t_map *map);
+void	set_color(t_color *map, unsigned char red, unsigned char green, unsigned char blue);
 void    zoom_map(t_map *map);
-int		line(t_dot A, t_dot B, void *ret, void *window);
+int	line(t_dot A, t_dot B, t_map *map);
 void 	rotate(t_map *map);
 int		close_window();
-
+int 	put_image(t_map *map);
 #endif

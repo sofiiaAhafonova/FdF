@@ -17,30 +17,6 @@
 #include "get_next_line.h"
 #include "fdf.h"
 #include <math.h>
-#include <stdio.h>
-void print_map(t_map *map)
-{
-	int i;
-	int j;
-	t_dot cur;
-
-	if (!map)
-		return ;
-	i = -1;
-	while (++i < map->row)
-	{
-		j = -1;
-		while (++j < map->col)
-		{
-			cur = map->base[i][j];
-			if (cur.z < 10 && cur.x > 0)
-				ft_putchar(' ');
-			ft_putnbr(cur.z);
-			ft_putchar(' ');
-		}
-		ft_putchar('\n');
-	}
-}
 
 int print_error(char *error)
 {
@@ -65,11 +41,6 @@ int start_zoom(t_map *map)
 	return (5);
 }
 
-int		vector_len(t_dot A)
-{
-	return (int)sqrt(A.x * A.x + A.y * A.y + A.z * A.z);
-}
-
 t_dot	module(t_dot A, t_dot B)
 {
 	t_dot D;
@@ -86,11 +57,50 @@ t_dot	direction(t_dot A, t_dot B)
 	S.x = A.x < B.x ? 1 : -1;
 	S.y = A.y < B.y ? 1 : -1;
 	S.z = A.z < B.z ? 1 : -1;
-	S.color = S.z == 1 ? A.color : B.color;
+	if (A.color.rgb == B.color.rgb)
+		S.color = A.color;
+	else {
+		S.color.rgb = abs(A.color.rgb - B.color.rgb) / 2;
+		S.color.rgb += A.color.rgb > B.color.rgb ? B.color.rgb : A.color.rgb;
+	}
 	return (S);
 }
 
-int	line(t_dot A, t_dot B, void *ret, void *window)
+int medium_color(t_dot A, t_dot B, t_map *map)
+{
+	int base_color;
+	t_color color;
+	int shift;
+
+	color = map->color;
+	if (A.color.rgb > B.color.rgb)
+		base_color = B.color.rgb;
+	else
+		base_color = A.color.rgb;
+	if (base_color < 0 && map->color.green - 32 > 0)
+		shift = -32;
+	else if (base_color == 0)
+		shift = 0;
+	else if (base_color > 0 && base_color < 5 && map->color.green + 32 <= 256)
+		shift = 32;
+	else if (base_color >= 5 && base_color < 10  && map->color.green +  64 <= 256)
+		shift = 64;
+	else if (base_color >= 10 && base_color < 20 && map->color.green +  96 <= 256)
+		shift = 96;
+	else if (base_color >= 20 && base_color < 50)
+		set_color(&color, 180, 180, 180);
+	else if (base_color >= 50 && base_color < 70)
+		set_color(&color, 200, 200,200);
+	else if (base_color >= 70)
+		set_color(&color, 220, 220, 220);
+	else
+		shift = 256 - map->color.green;
+	set_color(&color, map->color.red, map->color.green + shift, map->color.blue);
+	return (color.rgb);
+
+}
+
+int	line(t_dot A, t_dot B, t_map *map)
 {
 	int err;
 	int e2;
@@ -102,7 +112,7 @@ int	line(t_dot A, t_dot B, void *ret, void *window)
 	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(ret, window, A.x, A.y, S.color);
+		mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B, map));
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
@@ -117,7 +127,7 @@ int	line(t_dot A, t_dot B, void *ret, void *window)
 			A.y += S.y;
 		}
 	}
-	return S.color;
+	return medium_color(A, B, map);
 }
 
 void zoom_map(t_map *map)
@@ -143,13 +153,13 @@ void zoom_map(t_map *map)
 	}
 }
 
-int put_image(void *mlx_ptr, void *window, t_map *map)
+int put_image(t_map *map)
 {
 	int i;
 	int j;
 	t_dot cur;
 
-	if (!mlx_ptr || !window)
+	if (!map || !map->mlx_ptr || !map->window)
 		return (1);
 	i = -1;
 	while (++i < map->row)
@@ -159,10 +169,10 @@ int put_image(void *mlx_ptr, void *window, t_map *map)
 		{
 			cur = map->offset[i][j];
 			if (j != map->col - 1)
-				cur.color = line(cur, map->offset[i][j + 1], mlx_ptr, window);
+				cur.color.rgb = line(cur, map->offset[i][j + 1], map);
 			if (i != map->row - 1)
-				cur.color = line(cur, map->offset[i + 1][j], mlx_ptr, window);
-			mlx_pixel_put(mlx_ptr, window, cur.x, cur.y, cur.color);
+				cur.color.rgb = line(cur, map->offset[i + 1][j], map);
+			mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color.rgb);
 		}
 	}
 	return (0);
@@ -191,22 +201,19 @@ int main(int argc, char **argv)
 		return (print_error("window creation error"));
 	map->mlx_ptr = mlx_ptr;
 	map->window = window;
-
 	map->zoom = start_zoom(map);
 	zoom_map(map);
     map->offset = (t_dot**)malloc(sizeof(t_dot *) * map->row);
     int i = -1;
     while (++i < map->row)
         map->offset[i] = malloc(sizeof(t_dot)*map->col);
-	map->offset_x = SCREEN_WIDTH / 4 ;
-	map->offset_y =  SCREEN_HEIGHT /4 ;
+	map->offset_x = SCREEN_WIDTH / 2;
+	map->offset_y =  SCREEN_HEIGHT / 2;
 	map->wz = 0 *  DEEGRE;
 	map->wy = 0 *  DEEGRE;
 	map->wx = 0 *  DEEGRE;
 	rotate(map);
-	shift(map);
-	shift(map);
-	put_image(mlx_ptr, window, map);
+	put_image(map);
 	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
 	mlx_hook(map->window,2, 5, on_key_press, map);
 	mlx_loop(mlx_ptr);

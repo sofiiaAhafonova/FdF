@@ -32,7 +32,7 @@ MiniLibX - Manipulating images
 .fi
 .B mlx_get_color_value
 (
-.I void *mlx_ptr, int color
+.I void *mlx_ptr, int rgb
 );
 
 .nf
@@ -100,13 +100,13 @@ to modify it later. The
 parameter specifies the image to use. The three next parameters should
 be the addresses of three different valid integers.
 .I bits_per_pixel
-will be filled with the number of bits needed to represent a pixel color
+will be filled with the number of bits needed to represent a pixel rgb
 (also called the depth of the image).
 .I size_line
 is the number of bytes used to store one line of the image in memory.
 This information is needed to move from one line to another in the image.
 .I endian
-tells you wether the pixel color in the image needs to be stored in
+tells you wether the pixel rgb in the image needs to be stored in
 little endian (
 .I endian
 == 0), or big endian (
@@ -119,7 +119,7 @@ returns a
 address that represents the begining of the memory area where the image
 is stored. From this adress, the first
 .I bits_per_pixel
-bits represent the color of the first pixel in the first line of
+bits represent the rgb of the first pixel in the first line of
 the image. The second group of
 .I bits_per_pixel
 bits represent the second pixel of the first line, and so on.
@@ -135,17 +135,17 @@ destroys the given image (
 
 .SH STORING COLOR INSIDE IMAGES
 
-Depending on the display, the number of bits used to store a pixel color
-can change. The user usually represents a color in RGB mode, using
+Depending on the display, the number of bits used to store a pixel rgb
+can change. The user usually represents a rgb in RGB mode, using
 one byte for each component (see
 .B mlx_pixel_put
 manual). This must be translated to fit the
 .I bits_per_pixel
-requirement of the image, and make the color understandable to the graphical system.
+requirement of the image, and make the rgb understandable to the graphical system.
 That is the purpose of the
 .B mlx_get_color_value
 () function. It takes a standard RGB
-.I color
+.I rgb
 parameter, and returns an
 .I unsigned int
 value.

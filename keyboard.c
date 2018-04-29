@@ -21,7 +21,8 @@ int 	is_movement(int key)
 	|| key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
 			|| key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX || key == Y_ROTATION_NEGATIVE ||
 			key == Y_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX ||
-	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX);
+	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX || key == GREEN_KEY_LINUX
+			|| key == RED_KEY_LINUX || key == BLUE_KEY_LINUX);
 }
 
 void	original_size(t_map *map)
@@ -47,12 +48,16 @@ void	original_size(t_map *map)
 	}
 }
 
-int		set_color(t_map *map, unsigned char red, unsigned char green, unsigned char blue)
+void	set_color(t_color *map, unsigned char red, unsigned char green, unsigned char blue)
 {
 	if (!map)
-		return (-1);
-	map->color = 65536 * red + 256 * green + blue;
+		return ;
+	map->red = red;
+	map->green = green;
+	map->blue = blue;
+	map->rgb = 65536 * red + 256 * green + blue;
 }
+
 int		close_window()
 {
 	exit(EXIT_SUCCESS);
@@ -60,8 +65,7 @@ int		close_window()
 
 int 	on_key_press(int key, t_map *map)
 {
-//	ft_putnbr(key);
-//	ft_putendl("");
+
 	if (key == ESC || key == ESC_LINUX)
 		return (close_window());
 	if (!is_movement(key))
@@ -98,8 +102,11 @@ int 	on_key_press(int key, t_map *map)
 		map->wz += 2*DEEGRE;
 	/*minus or plus*/
 	if (key == RED_KEY_LINUX)
-		;
-//		map->color > 0;
+		map->color.red = map->color.red + 1 < 257 ? map->color.red + 1 : 0;
+	else if (key == GREEN_KEY_LINUX)
+		map->color.green = map->color.green + 1 < 257 ? map->color.green + 1 : 0;
+	else if (key == BLUE_KEY_LINUX)
+		map->color.blue = map->color.blue + 1 < 257 ? map->color.blue + 1 : 0;
 	if (key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX || key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX)
 	{
 		original_size(map);
@@ -107,9 +114,8 @@ int 	on_key_press(int key, t_map *map)
 		zoom_map(map);
 	}
 	rotate(map);
-	shift(map);
-	shift(map);
+	//shift(map);
 	mlx_clear_window(map->mlx_ptr, map->window);
-	put_image(map->mlx_ptr, map->window, map);
+	put_image(map);
 	return (0);
 }
