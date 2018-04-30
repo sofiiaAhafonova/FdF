@@ -21,8 +21,7 @@ int 	is_movement(int key)
 	|| key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
 			|| key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX || key == Y_ROTATION_NEGATIVE ||
 			key == Y_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX ||
-	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX || key == GREEN_KEY_LINUX
-			|| key == RED_KEY_LINUX || key == BLUE_KEY_LINUX);
+	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX);
 }
 
 void	original_size(t_map *map)
@@ -48,26 +47,40 @@ void	original_size(t_map *map)
 	}
 }
 
-void	set_color(t_color *map, unsigned char red, unsigned char green, unsigned char blue)
+void	set_color(int *map, unsigned char red, unsigned char green, unsigned char blue)
 {
 	if (!map)
 		return ;
-	map->red = red;
-	map->green = green;
-	map->blue = blue;
-	map->rgb = 65536 * red + 256 * green + blue;
+	*map = 65536 * red + 256 * green + blue;
 }
 
-int		close_window()
+int		close_window(t_map *map)
 {
+	remove_map(map);
 	exit(EXIT_SUCCESS);
+}
+
+int		zoom_keys(int key, t_map *map)
+{
+	if (key != ZOOM_IN_KEY && key != ZOOM_IN_KEY_LINUX &&
+		key != ZOOM_OUT_KEY && key != ZOOM_OUT_KEY_LINUX)
+	return (0);
+	original_size(map);
+	if (map->zoom > 1 && (key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX))
+		map->zoom--;
+	else if (map->zoom > 0 && (key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX))
+		map->zoom++;
+	else
+		return (0);
+	zoom_map(map);
+	return (0);
 }
 
 int 	on_key_press(int key, t_map *map)
 {
 
 	if (key == ESC || key == ESC_LINUX)
-		return (close_window());
+		return (close_window(map));
 	if (!is_movement(key))
 		return (0);
 	/*w*/
@@ -100,22 +113,34 @@ int 	on_key_press(int key, t_map *map)
 	/*x*/
 	if (key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX)
 		map->wz += 2*DEEGRE;
-	/*minus or plus*/
-	if (key == RED_KEY_LINUX)
-		map->color.red = map->color.red + 1 < 257 ? map->color.red + 1 : 0;
-	else if (key == GREEN_KEY_LINUX)
-		map->color.green = map->color.green + 1 < 257 ? map->color.green + 1 : 0;
-	else if (key == BLUE_KEY_LINUX)
-		map->color.blue = map->color.blue + 1 < 257 ? map->color.blue + 1 : 0;
-	if (key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX || key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX)
-	{
-		original_size(map);
-		(key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX) ? map->zoom-- : map->zoom++;
-		zoom_map(map);
-	}
+	zoom_keys(key, map);
 	rotate(map);
-	//shift(map);
 	mlx_clear_window(map->mlx_ptr, map->window);
 	put_image(map);
 	return (0);
+}
+
+void remove_map(t_map *map)
+{
+	int i;
+
+	i = -1;
+	if (!map)
+		return ;
+	while (++i <  map->row)
+	{
+		if (map->base)
+			free(map->base[i]);
+		if (map->offset)
+			free(map->offset[i]);
+	}
+	if (map->base)
+		free(map->base);
+	if (map->offset)
+		free(map->offset);
+	if (map->mlx_ptr && map->window)
+		mlx_destroy_window(map->mlx_ptr, map->window);
+	if (map->mlx_ptr)
+		free(map->mlx_ptr);
+	free(map);
 }

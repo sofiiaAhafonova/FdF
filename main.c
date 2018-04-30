@@ -57,46 +57,41 @@ t_dot	direction(t_dot A, t_dot B)
 	S.x = A.x < B.x ? 1 : -1;
 	S.y = A.y < B.y ? 1 : -1;
 	S.z = A.z < B.z ? 1 : -1;
-	if (A.color.rgb == B.color.rgb)
+	if (A.color == B.color)
 		S.color = A.color;
 	else {
-		S.color.rgb = abs(A.color.rgb - B.color.rgb) / 2;
-		S.color.rgb += A.color.rgb > B.color.rgb ? B.color.rgb : A.color.rgb;
+		S.color = abs(A.color - B.color) / 2;
+		S.color += A.color > B.color ? B.color : A.color;
 	}
 	return (S);
 }
 
-int medium_color(t_dot A, t_dot B, t_map *map)
+int medium_color(t_dot A, t_dot B)
 {
 	int base_color;
-	t_color color;
-	int shift;
+	int color;
 
-	color = map->color;
-	if (A.color.rgb > B.color.rgb)
-		base_color = B.color.rgb;
+	if (A.color > B.color)
+		base_color = B.color;
 	else
-		base_color = A.color.rgb;
-	if (base_color < 0 && map->color.green - 32 > 0)
-		shift = -32;
+		base_color = A.color;
+	if (base_color < 0)
+		set_color(&color, 0,153,153);
 	else if (base_color == 0)
-		shift = 0;
-	else if (base_color > 0 && base_color < 5 && map->color.green + 32 <= 256)
-		shift = 32;
-	else if (base_color >= 5 && base_color < 10  && map->color.green +  64 <= 256)
-		shift = 64;
-	else if (base_color >= 10 && base_color < 20 && map->color.green +  96 <= 256)
-		shift = 96;
+		set_color(&color, 40,154,154);
+	else if (base_color > 0 && base_color < 10)
+		set_color(&color, 4,195,195);
+	else if (base_color >= 10 && base_color < 20)
+		set_color(&color, 6,225,225);
 	else if (base_color >= 20 && base_color < 50)
-		set_color(&color, 180, 180, 180);
+		set_color(&color, 60,120,130);
 	else if (base_color >= 50 && base_color < 70)
-		set_color(&color, 200, 200,200);
+		set_color(&color, 60,100,140);
 	else if (base_color >= 70)
-		set_color(&color, 220, 220, 220);
+		set_color(&color, 204, 209, 225);
 	else
-		shift = 256 - map->color.green;
-	set_color(&color, map->color.red, map->color.green + shift, map->color.blue);
-	return (color.rgb);
+		color = 0;
+	return (color);
 
 }
 
@@ -112,7 +107,7 @@ int	line(t_dot A, t_dot B, t_map *map)
 	err = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B, map));
+		mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B));
 		if (A.x == B.x && A.y == B.y)
 			break;
 		e2 = err;
@@ -127,7 +122,7 @@ int	line(t_dot A, t_dot B, t_map *map)
 			A.y += S.y;
 		}
 	}
-	return medium_color(A, B, map);
+	return medium_color(A, B);
 }
 
 void zoom_map(t_map *map)
@@ -169,13 +164,32 @@ int put_image(t_map *map)
 		{
 			cur = map->offset[i][j];
 			if (j != map->col - 1)
-				cur.color.rgb = line(cur, map->offset[i][j + 1], map);
+				cur.color = line(cur, map->offset[i][j + 1], map);
 			if (i != map->row - 1)
-				cur.color.rgb = line(cur, map->offset[i + 1][j], map);
-			mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color.rgb);
+				cur.color = line(cur, map->offset[i + 1][j], map);
+			mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color);
 		}
 	}
 	return (0);
+}
+
+int initialize_map(t_map *map)
+{
+	if (!(map->mlx_ptr = mlx_init()))
+		return (print_error("mlx init error"));
+	if (!(map->window = mlx_new_window(map->mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "FdF")))
+		return (print_error("window creation error"));
+	map->zoom = start_zoom(map);
+	zoom_map(map);
+	map->offset = (t_dot**)malloc(sizeof(t_dot *) * map->row);
+	int i = -1;
+	while (++i < map->row)
+		map->offset[i] = malloc(sizeof(t_dot)*map->col);
+	map->offset_x = SCREEN_WIDTH / 2;
+	map->offset_y =  SCREEN_HEIGHT / 2;
+	map->wz = 0 *  DEEGRE;
+	map->wy = 0 *  DEEGRE;
+	map->wx = 0 *  DEEGRE;
 }
 
 int main(int argc, char **argv)
@@ -193,29 +207,11 @@ int main(int argc, char **argv)
 	map = read_map(fd, &list);
 	if (!map)
 		return (print_error("map parsing error"));
-	void *mlx_ptr = mlx_init();
-	if (!mlx_ptr)
-		return (print_error("mlx init error"));
-	void *window = mlx_new_window(mlx_ptr, SCREEN_WIDTH, SCREEN_HEIGHT, "test");
-	if (!window)
-		return (print_error("window creation error"));
-	map->mlx_ptr = mlx_ptr;
-	map->window = window;
-	map->zoom = start_zoom(map);
-	zoom_map(map);
-    map->offset = (t_dot**)malloc(sizeof(t_dot *) * map->row);
-    int i = -1;
-    while (++i < map->row)
-        map->offset[i] = malloc(sizeof(t_dot)*map->col);
-	map->offset_x = SCREEN_WIDTH / 2;
-	map->offset_y =  SCREEN_HEIGHT / 2;
-	map->wz = 0 *  DEEGRE;
-	map->wy = 0 *  DEEGRE;
-	map->wx = 0 *  DEEGRE;
+	initialize_map(map);
 	rotate(map);
 	put_image(map);
 	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
 	mlx_hook(map->window,2, 5, on_key_press, map);
-	mlx_loop(mlx_ptr);
+	mlx_loop(map->mlx_ptr);
 	return (0);
 }

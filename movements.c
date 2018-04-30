@@ -37,7 +37,7 @@ void rotate(t_map *map)
 			map->offset[i][j].x = (int)(x_coord * ar[5] - map->offset[i][j].y * ar[4]) + map->offset_x;
 			map->offset[i][j].y = (int)(map->offset[i][j].y * ar[5] + x_coord * ar[4]) + map->offset_y;
 			int color =  map->base[i][j].z / map->zoom;
-			map->offset[i][j].color.rgb = color;
+			map->offset[i][j].color = color;
 		}
 	}
 	free(ar);

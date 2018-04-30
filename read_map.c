@@ -65,7 +65,7 @@ int     *str_to_arr(char *str, int col)
     return (arr);
 }
 
-t_dot   **from_str_to_dots(t_list *list, int row, int col, t_color color)
+t_dot   **from_str_to_dots(t_list *list, int row, int col, int color)
 {
     t_dot   **dots;
     t_list  *head;
@@ -98,7 +98,7 @@ t_map   *map_params(int col, t_list *list)
     t_map   *map;
     t_list  *cur;
 
-    if (col <= 0)
+    if (col <= 0 || !list)
         return (NULL);
     map = (t_map*)malloc(sizeof(t_map));
     if (!map)
@@ -122,6 +122,7 @@ t_map	*read_map(int fd, t_list **list)
 	char	*buf;;
 	int num;
 	int first;
+	int *ar;
 
 	num = -1;
 	first = -1;
@@ -135,11 +136,11 @@ t_map	*read_map(int fd, t_list **list)
             list ? ft_lstdel(list, &del) : 0;
 			return (0);
 		}
-        node = ft_lstnew(str_to_arr(buf, num), sizeof(int) * (num + 1));
+		ar = str_to_arr(buf, num);
+        node = ft_lstnew(ar, sizeof(int) * (num));
+        free(ar);
         ft_lstadd(list, node);
 		ft_strdel(&buf);
 	}
-	if (!list)
-		return (0);
 	return (map_params(num, *list));
 }

@@ -16,6 +16,8 @@
 #include "libft/libft.h"
 #include "minilibx_macos/mlx.h"
 #include <math.h>
+#include <zconf.h>
+
 #define PI 3.14159265
 #define DEEGRE PI/180
 #define SHIFT 5
@@ -50,25 +52,14 @@
 #define ZOOM_OUT_KEY_LINUX 45
 #define ESC 53
 #define ESC_LINUX 65307
-#define RED_KEY_LINUX 114
-#define GREEN_KEY_LINUX 103
-#define BLUE_KEY_LINUX 98
 
-typedef struct	s_color
-{
-	int rgb;
-	unsigned char red;
-	unsigned char green;
-	unsigned char blue;
-
-}				t_color;
 
 typedef struct	s_dot
 {
 	int x;
 	int y;
 	int z;
-	t_color color;
+	int color;
 }				t_dot;
 
 
@@ -81,7 +72,7 @@ typedef struct	s_map
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
-	t_color		color;
+	int		color;
 	double wx;
 	double wy;
 	double wz;
@@ -92,10 +83,11 @@ typedef struct	s_map
 t_map	*read_map(int fd, t_list **list);
 void	del(void *cont, size_t size);
 int 	on_key_press(int key, t_map *map);
-void	set_color(t_color *map, unsigned char red, unsigned char green, unsigned char blue);
+void	set_color(int *map, unsigned char red, unsigned char green, unsigned char blue);
 void    zoom_map(t_map *map);
 int	line(t_dot A, t_dot B, t_map *map);
 void 	rotate(t_map *map);
-int		close_window();
+int		close_window(t_map *map);
 int 	put_image(t_map *map);
+void 	remove_map(t_map *map);
 #endif

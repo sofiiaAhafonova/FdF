@@ -31,7 +31,7 @@ char				*read_line(char *stor)
 	len = 0;
 	while (stor[len] != '\n')
 		++len;
-	str = ft_strnew(len);
+	str = ft_strnew(len + 1);
 	i = 0;
 	while (i < len)
 	{
