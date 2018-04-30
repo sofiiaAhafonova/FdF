@@ -23,7 +23,6 @@
 #define SHIFT 5
 #define SCREEN_WIDTH 1800
 #define SCREEN_HEIGHT 1000
-#define ZERO_LEVEL_COLOR 300200000
 #define MOVE_UP_KEY 13
 #define MOVE_UP_KEY_LINUX 119
 #define MOVE_DOWN_KEY 1
@@ -90,4 +89,7 @@ void 	rotate(t_map *map);
 int		close_window(t_map *map);
 int 	put_image(t_map *map);
 void 	remove_map(t_map *map);
+int initialize_map(t_map *map);
+int print_error(char *error);
+
 #endif

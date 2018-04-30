@@ -47,13 +47,6 @@ void	original_size(t_map *map)
 	}
 }
 
-void	set_color(int *map, unsigned char red, unsigned char green, unsigned char blue)
-{
-	if (!map)
-		return ;
-	*map = 65536 * red + 256 * green + blue;
-}
-
 int		close_window(t_map *map)
 {
 	remove_map(map);
@@ -64,21 +57,20 @@ int		zoom_keys(int key, t_map *map)
 {
 	if (key != ZOOM_IN_KEY && key != ZOOM_IN_KEY_LINUX &&
 		key != ZOOM_OUT_KEY && key != ZOOM_OUT_KEY_LINUX)
-	return (0);
+		return (0);
 	original_size(map);
 	if (map->zoom > 1 && (key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX))
 		map->zoom--;
 	else if (map->zoom > 0 && (key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX))
 		map->zoom++;
 	else
-		return (0);
+		return (1);
 	zoom_map(map);
 	return (0);
 }
 
 int 	on_key_press(int key, t_map *map)
 {
-
 	if (key == ESC || key == ESC_LINUX)
 		return (close_window(map));
 	if (!is_movement(key))
@@ -113,34 +105,10 @@ int 	on_key_press(int key, t_map *map)
 	/*x*/
 	if (key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX)
 		map->wz += 2*DEEGRE;
-	zoom_keys(key, map);
+	if (zoom_keys(key, map))
+		return (0);
 	rotate(map);
 	mlx_clear_window(map->mlx_ptr, map->window);
 	put_image(map);
 	return (0);
-}
-
-void remove_map(t_map *map)
-{
-	int i;
-
-	i = -1;
-	if (!map)
-		return ;
-	while (++i <  map->row)
-	{
-		if (map->base)
-			free(map->base[i]);
-		if (map->offset)
-			free(map->offset[i]);
-	}
-	if (map->base)
-		free(map->base);
-	if (map->offset)
-		free(map->offset);
-	if (map->mlx_ptr && map->window)
-		mlx_destroy_window(map->mlx_ptr, map->window);
-	if (map->mlx_ptr)
-		free(map->mlx_ptr);
-	free(map);
 }
