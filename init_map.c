@@ -48,6 +48,7 @@ int initialize_map(t_map *map)
 	map->offset_x = SCREEN_WIDTH / 2;
 	map->offset_y =  SCREEN_HEIGHT / 2;
 	map->wz = 0 *  DEEGRE;
-	map->wy = 0 *  DEEGRE;
-	map->wx = 0 *  DEEGRE;
+	map->wy = 2 *  DEEGRE;
+	map->wx = 2 *  DEEGRE;
+	map->show_legend = 1;
 }

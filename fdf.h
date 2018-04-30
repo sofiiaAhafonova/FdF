@@ -51,6 +51,7 @@
 #define ZOOM_OUT_KEY_LINUX 45
 #define ESC 53
 #define ESC_LINUX 65307
+#define HELP_KEY_LINUX 104
 
 
 typedef struct	s_dot
@@ -72,6 +73,7 @@ typedef struct	s_map
 	void		*mlx_ptr;
 	int			zoom;
 	int		color;
+	int show_legend;
 	double wx;
 	double wy;
 	double wz;

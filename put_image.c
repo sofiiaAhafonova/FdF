@@ -12,6 +12,18 @@
 
 #include "fdf.h"
 
+int put_legend(t_map *map)
+{
+	mlx_string_put(map->mlx_ptr, map->window, 40, 40, 0xFFFFFF, "ZOOM: +/-");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 60, 0xFFFFFF, "ROTATE X: TOP/BOTTOM ARROWS");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 80, 0xFFFFFF, "ROTATE Y: RIGHT/LEFT ARROWS");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 100, 0xFFFFFF, "ROTATE Z: z/x");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 120, 0xFFFFFF, "MOVE LEFT/RIGHT: a/d");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 140, 0xFFFFFF, "MOVE UP/DOWN: w/s");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 160, 0xFFFFFF, "SHOW/HIDE HELP: h");
+	return (0);
+}
+
 int put_image(t_map *map)
 {
 	int i;
@@ -34,5 +46,7 @@ int put_image(t_map *map)
 			mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color);
 		}
 	}
+	if (map->show_legend)
+		put_legend(map);
 	return (0);
 }
