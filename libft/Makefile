@@ -76,6 +76,7 @@ SRC = 	ft_isalpha.c \
 		ft_lstmemdel.c \
 		ft_strtoupper.c \
 		ft_lstpushback.c \
+		get_next_line.c \
 		
 CFLAGS = -Wall -Wextra -Werror -I ./
 

@@ -16,6 +16,8 @@
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
+# define BUFF_SIZE 1000
+# define FD_MAX 4864
 
 typedef struct		s_list
 {
@@ -88,5 +90,6 @@ char				*ft_strrev(char *str);
 void				ft_lstmemdel(void *node, size_t size);
 char				*ft_strtoupper(char *s);
 void				ft_lstpushback(t_list **alst, t_list *new);
+int					get_next_line(const int fd, char **line);
 
 #endif

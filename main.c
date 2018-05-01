@@ -6,30 +6,25 @@
 /*   By: sahafono <sahafono@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/02/28 21:23:00 by sahafono          #+#    #+#             */
-/*   Updated: 2018/02/28 21:23:00 by sahafono         ###   ########.fr       */
+/*   Updated: 2018/05/01 13:55:14 by sahafono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <fcntl.h>
-#include "libft/libft.h"
-#include "minilibx_macos/mlx.h"
-#include "get_next_line.h"
 #include "fdf.h"
-#include <math.h>
-#include <sys/syscall.h>
-int print_error(char *error)
+
+int			print_error(char *error)
 {
 	ft_putendl(error);
 	return (0);
 }
 
-
-int main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-	int fd;
-	t_list *list;
-	t_map *map;
+	int		fd;
+	t_list	*list;
+	t_map	*map;
 
 	if (argc != 2)
 		return (print_error("usage: ./fdf fdf_file"));
@@ -43,8 +38,8 @@ int main(int argc, char **argv)
 	initialize_map(map);
 	rotate(map);
 	put_image(map);
-	mlx_hook(map->window, 17, 1L << 17,&close_window, map);
-	mlx_hook(map->window,2, 5, on_key_press, map);
+	mlx_hook(map->window, 17, 1L << 17, &close_window, map);
+	mlx_hook(map->window, 2, 5, on_key_press, map);
 	mlx_loop(map->mlx_ptr);
 	return (0);
 }

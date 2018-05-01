@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
-#include "get_next_line.h"
 #include "fdf.h"
-#include <fcntl.h>
 
 int 	is_num(char *str)
 {
