@@ -44,16 +44,15 @@ int		initialize_map(t_map *map)
 		return (print_error("window creation error"));
 	map->zoom = start_zoom(map);
 	zoom_map(map);
-	map->offset = (t_dot**)malloc(sizeof(t_dot*) * map->row);
+	map->mod = (t_dot**)malloc(sizeof(t_dot*) * map->row);
 	i = -1;
 	while (++i < map->row)
-		map->offset[i] = malloc(sizeof(t_dot) * map->col);
+		map->mod[i] = malloc(sizeof(t_dot) * map->col);
 	map->offset_x = SCREEN_WIDTH / 2;
 	map->offset_y = SCREEN_HEIGHT / 2;
 	map->wz = 0 * DEGREE;
 	map->wy = 2 * DEGREE;
 	map->wx = 2 * DEGREE;
 	map->show_legend = 1;
-	map->scale_z = 1;
 	return (0);
 }

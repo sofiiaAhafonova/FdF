@@ -56,9 +56,6 @@ void	movement_keys(int key, t_map *map)
 		key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX)
 		map->wz = key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX
 			? map->wz + 2 * DEGREE : map->wz - 2 * DEGREE;
-	else
-		return (0);
-	return (1);
 }
 
 int		on_key_press(int key, t_map *map)

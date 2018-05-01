@@ -38,11 +38,11 @@ int put_image(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->offset[i][j];
+			cur = map->mod[i][j];
 			if (j != map->col - 1)
-				cur.color = line(cur, map->offset[i][j + 1], map);
+				cur.color = line(cur, map->mod[i][j + 1], map);
 			if (i != map->row - 1)
-				cur.color = line(cur, map->offset[i + 1][j], map);
+				cur.color = line(cur, map->mod[i + 1][j], map);
 			if (cur.x > -1 && cur.y > -1 && cur.x < SCREEN_WIDTH && cur.y < SCREEN_HEIGHT)
 				mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color);
 		}

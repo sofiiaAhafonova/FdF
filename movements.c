@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movements.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sahafono <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/05/01 14:30:03 by sahafono          #+#    #+#             */
+/*   Updated: 2018/05/01 14:31:23 by sahafono         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-void zoom_map(t_map *map)
+void		zoom_map(t_map *map)
 {
-	int i;
-	int j;
-	t_dot cur;
+	int		i;
+	int		j;
+	t_dot	cur;
 
 	if (!map || map->zoom < 1)
 		return ;
@@ -15,19 +27,19 @@ void zoom_map(t_map *map)
 		while (++j < map->col)
 		{
 			cur = map->base[i][j];
-			cur.x = j *map->zoom - (map->col * map->zoom)/2 ;
-			cur.y = i * map->zoom - (map->row * map->zoom)/2 ;
+			cur.x = j * map->zoom - (map->col * map->zoom) / 2;
+			cur.y = i * map->zoom - (map->row * map->zoom) / 2;
 			cur.z *= map->zoom;
 			map->base[i][j] = cur;
 		}
 	}
 }
 
-void	original_size(t_map *map)
+void		original_size(t_map *map)
 {
-	int i;
-	int j;
-	t_dot cur;
+	int		i;
+	int		j;
+	t_dot	cur;
 
 	if (!map || map->zoom < 1)
 		return ;
@@ -46,8 +58,9 @@ void	original_size(t_map *map)
 	}
 }
 
-double *trigonometric_func(t_map *map){
-	double *trigonometric_func;
+double		*trigonometric_func(t_map *map)
+{
+	double	*trigonometric_func;
 
 	trigonometric_func = ft_memalloc(sizeof(double) * 6);
 	trigonometric_func[0] = sin(map->wx);
@@ -59,12 +72,24 @@ double *trigonometric_func(t_map *map){
 	return (trigonometric_func);
 }
 
-void rotate(t_map *map)
+void		rotate_dot(t_dot *mod, t_dot base, t_map *map, double *ar)
 {
-	int i;
-	int j;
-	int x_coord;
-	double *ar;
+	int	cur;
+
+	mod->y = (int)(base.y * ar[1] - base.z * ar[0]);
+	mod->z = (int)(base.z * ar[1] + base.y * ar[0]);
+	mod->x = (int)(base.x * ar[3] + base.z * ar[2]);
+	mod->z = (int)(mod->z * ar[3] - mod->x * ar[2]);
+	cur = mod->x;
+	mod->x = (int)(cur * ar[5] - mod->y * ar[4]) + map->offset_x;
+	mod->y = (int)(mod->y * ar[5] + cur * ar[4]) + map->offset_y;
+}
+
+void		rotate(t_map *map)
+{
+	int		i;
+	int		j;
+	double	*ar;
 
 	i = -1;
 	ar = trigonometric_func(map);
@@ -73,14 +98,8 @@ void rotate(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			map->offset[i][j].y = (int)(map->base[i][j].y * ar[1] - map->base[i][j].z * ar[0]);
-			map->offset[i][j].z = (int)(map->base[i][j].z * ar[1] + map->base[i][j].y * ar[0]);
-			map->offset[i][j].x = (int)(map->base[i][j].x * ar[3] + map->base[i][j].z * ar[2]);
-			map->offset[i][j].z = (int)(map->offset[i][j].z * ar[3] - map->offset[i][j].x * ar[2]);
-			x_coord = map->offset[i][j].x;
-			map->offset[i][j].x = (int)(x_coord * ar[5] - map->offset[i][j].y * ar[4]) + map->offset_x;
-			map->offset[i][j].y = (int)(map->offset[i][j].y * ar[5] + x_coord * ar[4]) + map->offset_y;
-			map->offset[i][j].color = map->base[i][j].z / map->zoom;
+			rotate_dot(&map->mod[i][j], map->base[i][j], map, ar);
+			map->mod[i][j].color = map->base[i][j].z / map->zoom;
 		}
 	}
 	free(ar);

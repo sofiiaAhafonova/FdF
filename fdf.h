@@ -63,7 +63,7 @@ typedef struct	s_map
 	int			row;
 	int			col;
 	t_dot		**base;
-	t_dot		**offset;
+	t_dot		**mod;
 	void		*window;
 	void		*mlx_ptr;
 	int			zoom;
@@ -74,7 +74,6 @@ typedef struct	s_map
 	double		wz;
 	int			offset_x;
 	int			offset_y;
-	int			scale_z;
 }				t_map;
 
 t_map			*read_map(int fd, t_list **list);

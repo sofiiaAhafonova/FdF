@@ -23,13 +23,13 @@ void remove_map(t_map *map)
 	{
 		if (map->base)
 			free(map->base[i]);
-		if (map->offset)
-			free(map->offset[i]);
+		if (map->mod)
+			free(map->mod[i]);
 	}
 	if (map->base)
 		free(map->base);
-	if (map->offset)
-		free(map->offset);
+	if (map->mod)
+		free(map->mod);
 	if (map->mlx_ptr && map->window)
 		mlx_destroy_window(map->mlx_ptr, map->window);
 	if (map->mlx_ptr)
