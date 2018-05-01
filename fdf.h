@@ -83,6 +83,7 @@ int				on_key_press(int key, t_map *map);
 void			set_color(int *map, unsigned char red,
 	unsigned char green, unsigned char blue);
 void			zoom_map(t_map *map);
+void			original_size(t_map *map);
 int				line(t_dot a, t_dot b, t_map *map);
 void			rotate(t_map *map);
 int				close_window(t_map *map);

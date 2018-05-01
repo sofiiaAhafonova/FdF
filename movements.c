@@ -23,6 +23,29 @@ void zoom_map(t_map *map)
 	}
 }
 
+void	original_size(t_map *map)
+{
+	int i;
+	int j;
+	t_dot cur;
+
+	if (!map || map->zoom < 1)
+		return ;
+	i = -1;
+	while (++i < map->row)
+	{
+		j = -1;
+		while (++j < map->col)
+		{
+			cur = map->base[i][j];
+			cur.x = j;
+			cur.y = i;
+			cur.z /= map->zoom;
+			map->base[i][j] = cur;
+		}
+	}
+}
+
 double *trigonometric_func(t_map *map){
 	double *trigonometric_func;
 
