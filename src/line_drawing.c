@@ -58,7 +58,7 @@ int		mid_clr(t_dot a, t_dot b)
 	return (color);
 }
 
-void	print_dot(t_dot a, t_dot b)
+void	print_dot(t_dot a, t_dot b, t_map *map)
 {
 	if (a.x > -1 && a.y > -1 && a.x < SCREEN_WIDTH && a.y < SCREEN_HEIGHT)
 		mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, mid_clr(a, b));
@@ -75,7 +75,7 @@ int		line(t_dot a, t_dot b, t_map *map)
 	error.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while (1)
 	{
-		print_dot(a, b);
+		print_dot(a, b, map);
 		if (a.x == b.x && a.y == b.y)
 			break ;
 		error.y = error.x;
@@ -90,5 +90,5 @@ int		line(t_dot a, t_dot b, t_map *map)
 			a.y += s.y;
 		}
 	}
-	return (medium_color(a, b));
+	return (mid_clr(a, b));
 }
