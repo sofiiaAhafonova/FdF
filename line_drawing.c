@@ -70,28 +70,28 @@ int medium_color(t_dot A, t_dot B)
 
 int	line(t_dot A, t_dot B, t_map *map)
 {
-	int err;
-	int e2;
+	t_dot error;
 	t_dot D;
 	t_dot S;
 
 	D = module(A, B);
 	S = direction(A, B);
-	err = (D.x > D.y ? D.x : -D.y) / 2;
+	error.x = (D.x > D.y ? D.x : -D.y) / 2;
 	while(1)
 	{
-		mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B));
+		if (A.x > -1 && A.y > -1 && A.x < SCREEN_WIDTH && A.y < SCREEN_HEIGHT)
+			mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B));
 		if (A.x == B.x && A.y == B.y)
 			break;
-		e2 = err;
-		if (e2 > -D.x)
+		error.y = error.x;
+		if (error.y > -D.x)
 		{
-			err -= D.y;
+			error.x -= D.y;
 			A.x += S.x;
 		}
-		if (e2 < D.y)
+		if (error.y < D.y)
 		{
-			err += D.x;
+			error.x += D.x;
 			A.y += S.y;
 		}
 	}

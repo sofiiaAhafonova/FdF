@@ -1,5 +1,4 @@
 #include "fdf.h"
-#include <math.h>
 
 void zoom_map(t_map *map)
 {
@@ -58,8 +57,7 @@ void rotate(t_map *map)
 			x_coord = map->offset[i][j].x;
 			map->offset[i][j].x = (int)(x_coord * ar[5] - map->offset[i][j].y * ar[4]) + map->offset_x;
 			map->offset[i][j].y = (int)(map->offset[i][j].y * ar[5] + x_coord * ar[4]) + map->offset_y;
-			int color =  map->base[i][j].z / map->zoom;
-			map->offset[i][j].color = color;
+			map->offset[i][j].color = map->base[i][j].z / map->zoom;
 		}
 	}
 	free(ar);

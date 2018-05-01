@@ -47,8 +47,9 @@ int initialize_map(t_map *map)
 		map->offset[i] = malloc(sizeof(t_dot)*map->col);
 	map->offset_x = SCREEN_WIDTH / 2;
 	map->offset_y =  SCREEN_HEIGHT / 2;
-	map->wz = 0 *  DEEGRE;
-	map->wy = 2 *  DEEGRE;
-	map->wx = 2 *  DEEGRE;
+	map->wz = 0 *  DEGREE;
+	map->wy = 2 *  DEGREE;
+	map->wx = 2 *  DEGREE;
 	map->show_legend = 1;
+	map->scale_z = 1;
 }

@@ -21,7 +21,7 @@ int 	is_movement(int key)
 	|| key == MOVE_RIGHT_KEY || key == MOVE_RIGHT_KEY_LINUX|| key == X_ROTATION_POSITIVE || key == X_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX
 			|| key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX || key == Y_ROTATION_NEGATIVE ||
 			key == Y_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == ZOOM_IN_KEY || key == ZOOM_IN_KEY_LINUX ||
-	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX || HELP_KEY_LINUX);
+	key == ZOOM_OUT_KEY || key == ZOOM_OUT_KEY_LINUX || key == ESC || key == ESC_LINUX || key == HELP_KEY_LINUX);
 }
 
 void	original_size(t_map *map)
@@ -71,6 +71,8 @@ int		zoom_keys(int key, t_map *map)
 
 int 	on_key_press(int key, t_map *map)
 {
+	if (!map)
+		return (0);
 	if (key == ESC || key == ESC_LINUX)
 		return (close_window(map));
 	if (!is_movement(key))
@@ -84,14 +86,14 @@ int 	on_key_press(int key, t_map *map)
 	else if (key == MOVE_DOWN_KEY || key == MOVE_DOWN_KEY_LINUX)
 		map->offset_y += SHIFT;
 	else if (key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE || key == X_ROTATION_NEGATIVE || key == X_ROTATION_NEGATIVE_LINUX)
-		map->wx  = key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE  ? map->wx + 2*DEEGRE : map->wx - 2*DEEGRE;
+		map->wx  = key == X_ROTATION_POSITIVE_LINUX || key == X_ROTATION_POSITIVE  ? map->wx + 2*DEGREE : map->wx - 2*DEGREE;
 	else if (key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX || key == Y_ROTATION_NEGATIVE || key == Y_ROTATION_NEGATIVE_LINUX)
-		map->wy = key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX ? map->wy + 2*DEEGRE : map->wy - 2*DEEGRE;
+		map->wy = key == Y_ROTATION_POSITIVE || key == Y_ROTATION_POSITIVE_LINUX ? map->wy + 2*DEGREE : map->wy - 2*DEGREE;
 	else if (key == Z_ROTATION_NEGATIVE || key == Z_ROTATION_NEGATIVE_LINUX || key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX)
-		map->wz = key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX ? map->wz + 2*DEEGRE : map->wz - 2*DEEGRE;
+		map->wz = key == Z_ROTATION_POSITIVE || key == Z_ROTATION_POSITIVE_LINUX ? map->wz + 2*DEGREE : map->wz - 2*DEGREE;
 	else if (zoom_keys(key, map))
 		return (0);
-	else if (key == HELP_KEY_LINUX)
+	else if (key == HELP_KEY || key == HELP_KEY_LINUX)
 		map->show_legend = map->show_legend ? 0 : 1;
 	rotate(map);
 	mlx_clear_window(map->mlx_ptr, map->window);

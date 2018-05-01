@@ -17,7 +17,7 @@
 #include "get_next_line.h"
 #include "fdf.h"
 #include <math.h>
-
+#include <sys/syscall.h>
 int print_error(char *error)
 {
 	ft_putendl(error);

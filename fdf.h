@@ -16,10 +16,9 @@
 #include "libft/libft.h"
 #include "minilibx_macos/mlx.h"
 #include <math.h>
-#include <zconf.h>
 
 #define PI 3.14159265
-#define DEEGRE PI/180
+#define DEGREE (PI/180)
 #define SHIFT 5
 #define SCREEN_WIDTH 1800
 #define SCREEN_HEIGHT 1000
@@ -43,16 +42,14 @@
 #define Y_ROTATION_NEGATIVE_LINUX 65364
 #define Z_ROTATION_NEGATIVE 6
 #define Z_ROTATION_NEGATIVE_LINUX 120
-#define X_AXIS 'x'
-#define Y_AXIS 'y'
 #define ZOOM_IN_KEY 24
 #define ZOOM_IN_KEY_LINUX 61
 #define ZOOM_OUT_KEY 27
 #define ZOOM_OUT_KEY_LINUX 45
 #define ESC 53
 #define ESC_LINUX 65307
+#define HELP_KEY 4
 #define HELP_KEY_LINUX 104
-
 
 typedef struct	s_dot
 {
@@ -79,6 +76,7 @@ typedef struct	s_map
 	double wz;
     int offset_x;
     int offset_y;
+	int scale_z;
 }				t_map;
 
 t_map	*read_map(int fd, t_list **list);
