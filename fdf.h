@@ -90,5 +90,6 @@ int				put_image(t_map *map);
 void			remove_map(t_map *map);
 int				initialize_map(t_map *map);
 int				print_error(char *error);
+void 			del(void *cont, size_t size);
 
 #endif
