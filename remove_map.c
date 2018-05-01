@@ -6,20 +6,20 @@
 /*   By: sahafono <sahafono@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:53:00 by sahafono          #+#    #+#             */
-/*   Updated: 2018/04/30 14:53:00 by sahafono         ###   ########.fr       */
+/*   Updated: 2018/05/01 14:49:57 by sahafono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void remove_map(t_map *map)
+void	remove_map(t_map *map)
 {
 	int i;
 
 	i = -1;
 	if (!map)
 		return ;
-	while (++i <  map->row)
+	while (++i < map->row)
 	{
 		if (map->base)
 			free(map->base[i]);
