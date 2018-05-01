@@ -8,8 +8,8 @@ endif()
 # if(NOT LINUX) should work, too, if you need that
 if(LINUX)
     message(STATUS ">>> Linux")
-    link_directories(libmlx libft)
-    include_directories(libmlx libft)
+    link_directories(libmlx libft include)
+    include_directories(libmlx libft include)
     set ( PROJECT_LINK_LIBS libft.a libmlx_Linux.a )
     set (LINKED_LIBS  -lXext -lX11 -lm )
     # linux stuff here
@@ -23,12 +23,13 @@ else()
                       GLUT_LIBRARY
                       OpenGL_LIBRARY)
     SET(EXTRA_LIBS ${COCOA_LIBRARY} ${GLUT_LIBRARY} ${OpenGL_LIBRARY})
-    link_directories(minilibx_macos libft)
-    include_directories(minilibx_macos libft)
+    link_directories(minilibx_macos libft include)
+    include_directories(minilibx_macos libft include)
     set ( PROJECT_LINK_LIBS libft.a libmlx.a )
     set (LINKED_LIBS  -lmlx)
     # stuff that should happen not on Linux
 endif()
 
-add_executable(FdF main.c movements.c keyboard.c read_map.c fdf.h line_drawing.c init_map.c put_image.c remove_map.c)
+add_executable(FdF src/main.c src/movements.c src/keyboard.c src/read_map.c include/fdf.h
+        src/line_drawing.c src/init_map.c src/put_image.c src/remove_map.c)
 target_link_libraries(FdF ${PROJECT_LINK_LIBS} -Werror -Wextra -Wall ${LINKED_LIBS} ${EXTRA_LIBS})

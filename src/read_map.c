@@ -56,7 +56,7 @@ int			*str_to_arr(char *str, int col)
 	return (arr);
 }
 
-t_dot		**from_str_to_dots(t_list *list, int row, int col, int color)
+t_dot		**from_str_to_dots(t_list *list, int row, int col)
 {
 	t_dot	**dots;
 	t_list	*head;
@@ -103,7 +103,7 @@ t_map		*map_params(int col, t_list *list)
 		cur = cur->next;
 		(map->row)++;
 	}
-	map->base = from_str_to_dots(list, map->row, map->col, map->color);
+	map->base = from_str_to_dots(list, map->row, map->col);
 	return (map);
 }
 

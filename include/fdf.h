@@ -13,8 +13,8 @@
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft/libft.h"
-# include "minilibx_macos/mlx.h"
+# include "../libft/libft.h"
+# include "../minilibx_macos/mlx.h"
 # include <math.h>
 # define PI 3.14159265
 # define DEGREE (PI/180)

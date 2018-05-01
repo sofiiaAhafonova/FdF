@@ -16,49 +16,45 @@ NAME = fdf
 
 FLAGS = -Wall -Wextra -Werror
 
-LIBFT = libft
+I_DIR = ./include
 
-DIR_S = src
+S_DIR = ./src
 
-DIR_O = obj
+O_DIR = ./obj
 
-HEADERS = include
+EXTENSIONS = $(addprefix $(I_DIR)/,$(EXT))
 
-SOURCES =	main.c movements.c keyboard.c read_map.c fdf.h line_drawing.c init_map.c put_image.c remove_map.c
+EXT =   fdf.h\
 
-SRCS = $(addprefix $(DIR_S)/,$(SOURCES))
+HEADERS =-I$(I_DIR)
 
-OBJS = $(addprefix $(DIR_O)/,$(SOURCES:.c=.o))
+SOURCES =  main.c movements.c keyboard.c read_map.c line_drawing.c init_map.c put_image.c remove_map.c
+
+
+SRCS = $(addprefix $(S_DIR)/,$(SOURCES))
+
+OBJS = $(addprefix $(O_DIR)/,$(SOURCES:.c=.o))
 
 all: obj $(NAME)
 
-$(NAME): $(OBJS)
-		@make -C $(LIBFT)
-		@$(CC) -g $(FLAGS) -L $(LIBFT) -lft -o $@ $^ -lmlx -framework OpenGL -framework AppKit
+$(NAME): $(OBJS) $(EXTENSIONS)
+	$(CC) -o $(NAME) $(OBJS) $(FLAGS) $(HEADERS)
 
 obj:
-		@mkdir -p obj
+	mkdir -p $(O_DIR)
 
-$(DIR_O)/%.o: $(DIR_S)/%.c $(HEADERS)/$(NAME).h
-		@$(CC) -g $(FLAGS) -I $(HEADERS) -c -o $@ $<
-
-norme:
-		@make norme -C $(LIBFT)
-		@echo "--------------------Checking header files fdf"
-		@norminette ./$(HEADERS)
-		@echo "--------------------Checking source files fdf"
-		@norminette ./$(DIR_S)
+$(O_DIR)/%.o: $(S_DIR)/%.c $(EXTENSIONS)
+	$(CC) -c -o $@ $< $(FLAGS) $(HEADERS)
 
 clean:
-		@rm -f $(OBJS)
-		@make clean -C $(LIBFT)
-		@rm -rf $(DIR_O)
+	rm -f $(OBJS)
+	rm -rf $(O_DIR)
 
 fclean: clean
-		@rm -f $(NAME)
-		@make fclean -C $(LIBFT)
+	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all, obj, norme, clean, fclean, re
-.NOTPARALLEL:  all, obj, norme, clean, fclean, re
+.PHONY: all, obj, clean, fclean, re
+.NOTPARALLEL:  all, obj, clean, fclean, re
+.SILENT:
