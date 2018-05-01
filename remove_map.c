@@ -12,7 +12,7 @@
 
 #include "fdf.h"
 
-void 		del(void *cont, size_t size)
+void	del(void *cont, size_t size)
 {
 	if (size)
 		free(cont);

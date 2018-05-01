@@ -31,6 +31,14 @@ int			put_legend(t_map *map)
 	return (0);
 }
 
+void		set_color(int *map, unsigned char red,
+	unsigned char green, unsigned char blue)
+{
+	if (!map)
+		return ;
+	*map = 65536 * red + 256 * green + blue;
+}
+
 int			put_image(t_map *map)
 {
 	int		i;

@@ -30,14 +30,6 @@ t_dot	direction(t_dot a, t_dot b)
 	return (s);
 }
 
-void	set_color(int *map, unsigned char red,
-	unsigned char green, unsigned char blue)
-{
-	if (!map)
-		return ;
-	*map = 65536 * red + 256 * green + blue;
-}
-
 int		mid_clr(t_dot a, t_dot b)
 {
 	int base_color;
@@ -66,6 +58,12 @@ int		mid_clr(t_dot a, t_dot b)
 	return (color);
 }
 
+void	print_dot(t_dot a, t_dot b)
+{
+	if (a.x > -1 && a.y > -1 && a.x < SCREEN_WIDTH && a.y < SCREEN_HEIGHT)
+		mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, mid_clr(a, b));
+}
+
 int		line(t_dot a, t_dot b, t_map *map)
 {
 	t_dot error;
@@ -77,8 +75,7 @@ int		line(t_dot a, t_dot b, t_map *map)
 	error.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while (1)
 	{
-		if (a.x > -1 && a.y > -1 && a.x < SCREEN_WIDTH && a.y < SCREEN_HEIGHT)
-			mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, mid_clr(a, b));
+		print_dot(a, b);
 		if (a.x == b.x && a.y == b.y)
 			break ;
 		error.y = error.x;
