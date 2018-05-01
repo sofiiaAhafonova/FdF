@@ -12,23 +12,30 @@
 
 #include "fdf.h"
 
-int put_legend(t_map *map)
+int			put_legend(t_map *map)
 {
-	mlx_string_put(map->mlx_ptr, map->window, 40, 40, 0xFFFFFF, "ZOOM: +/-");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 60, 0xFFFFFF, "ROTATE X: TOP/BOTTOM ARROWS");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 80, 0xFFFFFF, "ROTATE Y: RIGHT/LEFT ARROWS");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 100, 0xFFFFFF, "ROTATE Z: z/x");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 120, 0xFFFFFF, "MOVE LEFT/RIGHT: a/d");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 140, 0xFFFFFF, "MOVE UP/DOWN: w/s");
-	mlx_string_put(map->mlx_ptr, map->window, 40, 160, 0xFFFFFF, "SHOW/HIDE HELP: h");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 40, 0xFFFFFF,
+		"ZOOM: +/-");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 60, 0xFFFFFF,
+		"ROTATE X: TOP/BOTTOM ARROWS");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 80, 0xFFFFFF,
+		"ROTATE Y: RIGHT/LEFT ARROWS");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 100, 0xFFFFFF,
+		"ROTATE Z: z/x");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 120, 0xFFFFFF,
+		"MOVE LEFT/RIGHT: a/d");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 140, 0xFFFFFF,
+		"MOVE UP/DOWN: w/s");
+	mlx_string_put(map->mlx_ptr, map->window, 40, 160, 0xFFFFFF,
+		"SHOW/HIDE HELP: h");
 	return (0);
 }
 
-int put_image(t_map *map)
+int			put_image(t_map *map)
 {
-	int i;
-	int j;
-	t_dot cur;
+	int		i;
+	int		j;
+	t_dot	d;
 
 	if (!map || !map->mlx_ptr || !map->window)
 		return (1);
@@ -38,13 +45,14 @@ int put_image(t_map *map)
 		j = -1;
 		while (++j < map->col)
 		{
-			cur = map->mod[i][j];
+			d = map->mod[i][j];
 			if (j != map->col - 1)
-				cur.color = line(cur, map->mod[i][j + 1], map);
+				d.color = line(d, map->mod[i][j + 1], map);
 			if (i != map->row - 1)
-				cur.color = line(cur, map->mod[i + 1][j], map);
-			if (cur.x > -1 && cur.y > -1 && cur.x < SCREEN_WIDTH && cur.y < SCREEN_HEIGHT)
-				mlx_pixel_put(map->mlx_ptr, map->window, cur.x, cur.y, cur.color);
+				d.color = line(d, map->mod[i + 1][j], map);
+			if (d.x > -1 && d.y > -1 && d.x < SCREEN_WIDTH &&
+					d.y < SCREEN_HEIGHT)
+				mlx_pixel_put(map->mlx_ptr, map->window, d.x, d.y, d.color);
 		}
 	}
 	if (map->show_legend)

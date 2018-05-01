@@ -6,38 +6,39 @@
 /*   By: sahafono <sahafono@student.unit.ua>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/04/30 14:47:00 by sahafono          #+#    #+#             */
-/*   Updated: 2018/04/30 14:47:00 by sahafono         ###   ########.fr       */
+/*   Updated: 2018/05/01 15:12:57 by sahafono         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_dot	module(t_dot A, t_dot B)
+t_dot	module(t_dot a, t_dot b)
 {
-	t_dot D;
+	t_dot d;
 
-	D.x = abs(B.x - A.x);
-	D.y = abs(B.y - A.y);
-	return (D);
+	d.x = abs(b.x - a.x);
+	d.y = abs(b.y - a.y);
+	return (d);
 }
 
-t_dot	direction(t_dot A, t_dot B)
+t_dot	direction(t_dot a, t_dot b)
 {
-	t_dot S;
+	t_dot s;
 
-	S.x = A.x < B.x ? 1 : -1;
-	S.y = A.y < B.y ? 1 : -1;
-	return (S);
+	s.x = a.x < b.x ? 1 : -1;
+	s.y = a.y < b.y ? 1 : -1;
+	return (s);
 }
 
-void	set_color(int *map, unsigned char red, unsigned char green, unsigned char blue)
+void	set_color(int *map, unsigned char red,
+	unsigned char green, unsigned char blue)
 {
 	if (!map)
 		return ;
 	*map = 65536 * red + 256 * green + blue;
 }
 
-int medium_color(t_dot a, t_dot b)
+int		mid_clr(t_dot a, t_dot b)
 {
 	int base_color;
 	int color;
@@ -46,29 +47,26 @@ int medium_color(t_dot a, t_dot b)
 		base_color = b.color;
 	else
 		base_color = a.color;
-	if (base_color <= - 10)
-		set_color(&color, 0,100,0);
+	if (base_color <= -10)
+		set_color(&color, 0, 100, 0);
 	else if (base_color < -2)
-		set_color(&color, 0,102,0);
+		set_color(&color, 0, 102, 0);
 	else if (base_color >= -2 && base_color <= 2)
-		set_color(&color, 0,153,0);
+		set_color(&color, 0, 153, 0);
 	else if (base_color > 2 && base_color < 10)
-		set_color(&color, 178,255,102);
+		set_color(&color, 178, 255, 102);
 	else if (base_color >= 10 && base_color < 20)
-		set_color(&color, 255,255,102);
+		set_color(&color, 255, 255, 102);
 	else if (base_color >= 20 && base_color < 50)
-		set_color(&color, 255,165,0);
+		set_color(&color, 255, 165, 0);
 	else if (base_color >= 50 && base_color < 70)
-		set_color(&color, 255,140,0);
-	else if (base_color >= 70)
-		set_color(&color,255,99,71);
+		set_color(&color, 255, 140, 0);
 	else
-		color = 0;
+		set_color(&color, 255, 99, 71);
 	return (color);
-
 }
 
-int	line(t_dot a, t_dot b, t_map *map)
+int		line(t_dot a, t_dot b, t_map *map)
 {
 	t_dot error;
 	t_dot d;
@@ -77,12 +75,12 @@ int	line(t_dot a, t_dot b, t_map *map)
 	d = module(a, b);
 	s = direction(a, b);
 	error.x = (d.x > d.y ? d.x : -d.y) / 2;
-	while(1)
+	while (1)
 	{
 		if (a.x > -1 && a.y > -1 && a.x < SCREEN_WIDTH && a.y < SCREEN_HEIGHT)
-			mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, medium_color(a, b));
+			mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, mid_clr(a, b));
 		if (a.x == b.x && a.y == b.y)
-			break;
+			break ;
 		error.y = error.x;
 		if (error.y > -d.x)
 		{
@@ -95,5 +93,5 @@ int	line(t_dot a, t_dot b, t_map *map)
 			a.y += s.y;
 		}
 	}
-	return medium_color(a, b);
+	return (medium_color(a, b));
 }

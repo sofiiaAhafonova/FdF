@@ -12,6 +12,12 @@
 
 #include "fdf.h"
 
+void 		del(void *cont, size_t size)
+{
+	if (size)
+		free(cont);
+}
+
 void	remove_map(t_map *map)
 {
 	int i;
