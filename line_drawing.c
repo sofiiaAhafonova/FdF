@@ -37,15 +37,15 @@ void	set_color(int *map, unsigned char red, unsigned char green, unsigned char b
 	*map = 65536 * red + 256 * green + blue;
 }
 
-int medium_color(t_dot A, t_dot B)
+int medium_color(t_dot a, t_dot b)
 {
 	int base_color;
 	int color;
 
-	if (A.color > B.color)
-		base_color = B.color;
+	if (a.color > b.color)
+		base_color = b.color;
 	else
-		base_color = A.color;
+		base_color = a.color;
 	if (base_color <= - 10)
 		set_color(&color, 0,100,0);
 	else if (base_color < -2)
@@ -68,32 +68,32 @@ int medium_color(t_dot A, t_dot B)
 
 }
 
-int	line(t_dot A, t_dot B, t_map *map)
+int	line(t_dot a, t_dot b, t_map *map)
 {
 	t_dot error;
-	t_dot D;
-	t_dot S;
+	t_dot d;
+	t_dot s;
 
-	D = module(A, B);
-	S = direction(A, B);
-	error.x = (D.x > D.y ? D.x : -D.y) / 2;
+	d = module(a, b);
+	s = direction(a, b);
+	error.x = (d.x > d.y ? d.x : -d.y) / 2;
 	while(1)
 	{
-		if (A.x > -1 && A.y > -1 && A.x < SCREEN_WIDTH && A.y < SCREEN_HEIGHT)
-			mlx_pixel_put(map->mlx_ptr, map->window, A.x, A.y, medium_color(A, B));
-		if (A.x == B.x && A.y == B.y)
+		if (a.x > -1 && a.y > -1 && a.x < SCREEN_WIDTH && a.y < SCREEN_HEIGHT)
+			mlx_pixel_put(map->mlx_ptr, map->window, a.x, a.y, medium_color(a, b));
+		if (a.x == b.x && a.y == b.y)
 			break;
 		error.y = error.x;
-		if (error.y > -D.x)
+		if (error.y > -d.x)
 		{
-			error.x -= D.y;
-			A.x += S.x;
+			error.x -= d.y;
+			a.x += s.x;
 		}
-		if (error.y < D.y)
+		if (error.y < d.y)
 		{
-			error.x += D.x;
-			A.y += S.y;
+			error.x += d.x;
+			a.y += s.y;
 		}
 	}
-	return medium_color(A, B);
+	return medium_color(a, b);
 }
