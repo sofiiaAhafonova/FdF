@@ -38,7 +38,5 @@ void	remove_map(t_map *map)
 		free(map->mod);
 	if (map->mlx_ptr && map->window)
 		mlx_destroy_window(map->mlx_ptr, map->window);
-	if (map->mlx_ptr)
-		free(map->mlx_ptr);
 	free(map);
 }
